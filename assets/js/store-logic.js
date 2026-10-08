@@ -62,6 +62,16 @@ function formatearPrecioUSD(monto) {
     return `$${monto.toFixed(2)} USD`;
 }
 
+function esCompraDeBolivia() {
+    const campoPais = document.getElementById("cart-client-country");
+    return !!campoPais && campoPais.value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() === "bolivia";
+}
+
+function formatearPrecioCheckout(monto) {
+    const precioUSD = formatearPrecioUSD(monto);
+    return esCompraDeBolivia() ? `${precioUSD} (Bs ${(monto * 10).toFixed(2)})` : precioUSD;
+}
+
 const LIBRERIA_SONIDOS = [
     { id: "s1", titulo: "LOOPS DRUMPADS", icon: "fa-drum", desc: "Secuencias rítmicas, loops de percusión y ambientes rítmicos Worship listos para tus shows." },
     { id: "s2", titulo: "KONTAKT LIBRARIES", icon: "fa-keyboard", desc: "Muestreos avanzados de pianos acústicos, sintetizadores analógicos y vientos con máxima articulación." },
@@ -375,7 +385,7 @@ function renderizarPaginaCarrito() {
             <td><strong>${index + 1}</strong></td>
             <td><span style="color:#ffffff; font-weight:700; text-transform:uppercase; font-size:0.9em; letter-spacing:0.05em;">${item.titulo}</span></td>
             <td><span class="badge-soon" style="font-size:0.75em; margin:0; padding:0.2em 0.6em; background:rgba(255,255,255,0.03); border-color:rgba(255,255,255,0.1); color:rgba(255,255,255,0.6); font-family:monospace;">${item.categoria}</span></td>
-            <td style="text-align:right; font-weight:700; color:var(--onlylord-accent);">${formatearPrecioUSD(precio)}</td>
+            <td class="cart-item-price" style="text-align:right; font-weight:700; color:var(--onlylord-accent);">${formatearPrecioCheckout(precio)}</td>
             <td style="text-align:right;">
                 <button class="button small" style="height:2.4em; line-height:2.4em; padding: 0 1em; background:#ab3d26; box-shadow:none; color:#ffffff !important; border-radius:4px;" onclick="eliminarDelCarrito('${item.id}')">
                     <i class="fas fa-trash"></i>
@@ -408,14 +418,18 @@ function actualizarResumenTotalesCarrito() {
     const codigo = inputDescuento ? inputDescuento.value : "";
     const { subtotal, descuento, total, codigoValido, porcentajeDescuento } = calcularTotalesCarrito(carrito, codigo);
 
-    if (elSubtotal) elSubtotal.textContent = formatearPrecioUSD(subtotal);
-    if (elTotal) elTotal.textContent = formatearPrecioUSD(total);
+    if (elSubtotal) elSubtotal.textContent = formatearPrecioCheckout(subtotal);
+    if (elTotal) elTotal.textContent = formatearPrecioCheckout(total);
+
+    document.querySelectorAll(".cart-item-price").forEach((elemento, indice) => {
+        if (carrito[indice]) elemento.textContent = formatearPrecioCheckout(obtenerPrecioItem(carrito[indice]));
+    });
 
     if (elDescuento && elDescuentoMonto) {
         if (codigo.trim() && codigoValido) {
             elDescuento.style.display = "flex";
             if (elDescuentoLabel) elDescuentoLabel.textContent = `${porcentajeDescuento}%`;
-            elDescuentoMonto.textContent = `- ${formatearPrecioUSD(descuento)} (${porcentajeDescuento}%)`;
+            elDescuentoMonto.textContent = `- ${formatearPrecioCheckout(descuento)} (${porcentajeDescuento}%)`;
             if (elEstadoCodigo) {
                 elEstadoCodigo.textContent = "Código aplicado correctamente";
                 elEstadoCodigo.style.color = "var(--onlylord-accent)";
@@ -451,16 +465,16 @@ function despacharCarritoAWhatsApp() {
     let listaProductosTexto = "";
     carrito.forEach((item, idx) => {
         const precio = obtenerPrecioItem(item);
-        listaProductosTexto += `${idx + 1}. *${item.titulo}* [${item.categoria}] — ${formatearPrecioUSD(precio)}\n`;
+        listaProductosTexto += `${idx + 1}. *${item.titulo}* [${item.categoria}] — ${formatearPrecioCheckout(precio)}\n`;
     });
 
-    let bloquePrecios = `💰 *Subtotal:* ${formatearPrecioUSD(subtotal)}\n`;
+    let bloquePrecios = `💰 *Subtotal:* ${formatearPrecioCheckout(subtotal)}\n`;
     if (codigoDescuento && codigoValido) {
-        bloquePrecios += `🏷️ *Descuento:* ${codigoDescuento.toUpperCase()} -${porcentajeDescuento}% (-${formatearPrecioUSD(descuento)})\n`;
+        bloquePrecios += `🏷️ *Descuento:* ${codigoDescuento.toUpperCase()} -${porcentajeDescuento}% (-${formatearPrecioCheckout(descuento)})\n`;
     } else if (codigoDescuento) {
         bloquePrecios += `⚠️ *Código ingresado:* ${codigoDescuento.toUpperCase()} (no válido)\n`;
     }
-    bloquePrecios += `✅ *TOTAL A PAGAR:* ${formatearPrecioUSD(total)}`;
+    bloquePrecios += `✅ *TOTAL A PAGAR:* ${formatearPrecioCheckout(total)}`;
 
     const mensaje = `¡Hola, ONLY LORD! 👋\n` +
                     `He armado mi orden de compra desde la plataforma web oficial:\n\n` +

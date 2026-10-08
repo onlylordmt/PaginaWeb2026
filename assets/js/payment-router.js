@@ -365,6 +365,7 @@
 		actualizarPrefijoTelefono(estado.codigoPais, prefijoDetectado);
 		actualizarEstadoPais();
 		poblarSelect();
+		document.dispatchEvent(new Event('onlylord:country-updated'));
 	}
 
 	function detectarPais() {
@@ -675,7 +676,13 @@
 		}
 
 		poblarPaises();
-		$pais.addEventListener('input', function () { paisModificado = true; });
+		$pais.addEventListener('input', function () {
+			paisModificado = true;
+			if (typeof actualizarResumenTotalesCarrito === 'function') { actualizarResumenTotalesCarrito(); }
+		});
+		document.addEventListener('onlylord:country-updated', function () {
+			if (typeof actualizarResumenTotalesCarrito === 'function') { actualizarResumenTotalesCarrito(); }
+		});
 		$pais.addEventListener('change', function () {
 			paisModificado = true;
 			actualizarPais();
