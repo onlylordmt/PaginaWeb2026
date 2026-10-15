@@ -156,11 +156,11 @@
 									<div class="manifesto-box">
 										<h3>Producción a Medida</h3>
 										<p>Realizamos nuestro trabajo recreando desde cero cada capa de sonido, sintetizador, patrón rítmico y arreglo instrumental. Replicamos milimétricamente las dinámicas estructurales del máster de referencia para entregarte un multitrack sumamente fiel al original, optimizado para tus shows en vivo o ensayos.</p>
-										<p style="margin-top:1em;"><strong>Proceso de pedido:</strong> Primero recibirás la cotización del multitrack solicitado. Una vez que apruebes el presupuesto y realices el pago, la producción se realiza en un plazo de <strong>5 días hábiles</strong> después del pago confirmado.</p>
+										<p style="margin-top:1em;"><strong>Proceso:</strong> revisamos tu solicitud y te comunicamos el alcance, precio, plazo estimado, formato y modificaciones incluidas. El trabajo solo comienza tras tu aceptación expresa del presupuesto y la confirmación del pago. Como referencia, un encargo individual puede requerir 5 días hábiles; los medleys u otros trabajos pueden necesitar más tiempo y se acordará contigo.</p>
 									</div>
 
 									<h3 class="major">Formulario de Solicitud</h3>
-									<p>Ingresa tus datos de contacto y los detalles de la canción que deseas. Toda la información se enviará por WhatsApp.</p>
+									<p>Completa los datos para preparar una consulta en WhatsApp. No se envía automáticamente: podrás revisar el mensaje y decidir si lo envías.</p>
 									
 									<form id="form-pedido-personalizado">
 										<div class="fields">
@@ -192,17 +192,27 @@
 											<div class="field half">
 												<label for="order-client-country">País</label>
 												<div class="input-icon-wrapper">
-													<input type="text" id="order-client-country" placeholder="Ej: Bolivia" required />
+													<input type="text" id="order-client-country" placeholder="Ej: Bolivia" />
 													<i class="fas fa-globe-americas"></i>
 												</div>
 											</div>
 
 											<div class="field half">
-												<label for="order-client-phone">Número de Teléfono</label>
+												<label for="order-client-phone">WhatsApp o teléfono (opcional)</label>
 												<div class="input-icon-wrapper">
-													<input type="tel" id="order-client-phone" placeholder="Ej: +591 62276138" required />
+													<input type="tel" id="order-client-phone" placeholder="Incluye el prefijo del país" />
 													<i class="fas fa-phone-alt"></i>
 												</div>
+											</div>
+
+											<div class="field half">
+												<label for="order-service-type">Tipo de consulta</label>
+												<select id="order-service-type" required>
+													<option value="" disabled selected>Selecciona una opción</option>
+													<option value="Creación de multitrack personalizado">Creación de multitrack personalizado</option>
+													<option value="Medley, remake o secuencia adaptada">Medley, remake o secuencia adaptada</option>
+													<option value="Mezcla, masterización, intro u otro servicio">Mezcla, masterización, intro u otro servicio (sujeto a evaluación)</option>
+												</select>
 											</div>
 
 											<div class="field half">
@@ -216,7 +226,7 @@
 											<div class="field half">
 												<label for="order-artist-name">Artista Original</label>
 												<div class="input-icon-wrapper">
-													<input type="text" id="order-artist-name" placeholder="Ej: Brandon Lake" required />
+													<input type="text" id="order-artist-name" placeholder="Ej: Brandon Lake" />
 													<i class="fas fa-user"></i>
 												</div>
 											</div>
@@ -224,11 +234,16 @@
 											<div class="field">
 												<label for="order-version-name">Versión de la Canción / Álbum</label>
 												<div class="input-icon-wrapper">
-													<input type="text" id="order-version-name" placeholder="Ej: Versión del álbum en vivo o concierto específico" required />
+													<input type="text" id="order-version-name" placeholder="Ej: Versión del álbum en vivo o concierto específico" />
 													<i class="fas fa-compact-disc"></i>
 												</div>
 											</div>
 											
+											<div class="field">
+												<label for="order-key-bpm">Tonalidad o BPM solicitados (opcional)</label>
+												<input type="text" id="order-key-bpm" placeholder="Ej: Sol menor, 120 BPM" />
+											</div>
+
 											<div class="field">
 												<label for="order-link-ref">Enlace de Referencia (YouTube / Spotify)</label>
 												<div class="input-icon-wrapper">
@@ -244,15 +259,21 @@
 
 										</div>
 
+										<div class="field">
+											<input type="checkbox" id="order-privacy" required />
+											<label for="order-privacy">He leído la <a href="privacidad.html">política de privacidad</a> y entiendo que al abrir WhatsApp decidiré si envío la información de esta consulta.</label>
+										</div>
+										<p id="order-whatsapp-status" aria-live="polite"></p>
+
 										<!-- Nota de Despedida e Información de Tiempos -->
 										<div class="form-notice-footer">
-											<p>⚠️ PRIMERO SE ENVÍA LA COTIZACIÓN DEL MULTITRACK. TRAS EL PAGO CONFIRMADO, LA PRODUCCIÓN SE ENTREGA EN 5 DÍAS HÁBILES. ¡GRACIAS POR CONFIAR EN NUESTRO TRABAJO!</p>
+											<p>Esta solicitud no es una compra ni un compromiso de pago. Primero se revisará el alcance y se enviará un presupuesto para tu aceptación. Los plazos se acuerdan según el encargo.</p>
 										</div>
 
 										<ul class="actions stacked">
 											<li>
 												<button type="submit" class="button primary btn-submit-order">
-													<i class="fab fa-whatsapp"></i> Enviar Pedido a WhatsApp
+													<i class="fab fa-whatsapp"></i> Preparar consulta en WhatsApp
 												</button>
 											</li>
 										</ul>
@@ -276,12 +297,16 @@
 									</ul>
 								</div>
 								<div>
-									<h2 class="major">Soporte Operativo</h2>
-									<p style="margin: 0; font-size: 0.95em; line-height: 1.6; color: rgba(255,255,255,0.7);">Nuestras producciones por encargo mantienen los mismos estándares técnicos que nuestra librería premium: exportación WAV PCM a 24-bits sin compresión destructiva, sincronizados con click y cues estables.</p>
+									<h2 class="major">Condiciones del encargo</h2>
+									<p>El alcance, presupuesto, plazo, formato y modificaciones se confirmarán antes de iniciar el trabajo. Consulta los <a href="terminos-servicios.html">términos de servicios personalizados</a>.</p>
 								</div>
 							</div>
 							<ul class="copyright">
 								<li>&copy; 2026 Only Lord. Todos los derechos reservados.</li>
+								<li><a href="condiciones-de-compra.html">Condiciones de compra</a></li>
+								<li><a href="terminos-servicios.html">Términos de servicios</a></li>
+								<li><a href="privacidad.html">Política de privacidad</a></li>
+								<li><a href="contacto.html">Contacto</a></li>
 							</ul>
 						</div>
 					</section>

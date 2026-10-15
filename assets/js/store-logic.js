@@ -3,6 +3,12 @@
    ========================================================================== */
 
 const MI_TELEFONO_WHATSAPP = "59162276138";
+// Pendientes de confirmar por el titular: usuario público de Airtm y Takecard de Takenos.
+// No publicar identificadores hasta recibir y verificar los handles exactos.
+const IDENTIFICADORES_PUBLICOS_PAGO = {
+    airtm: "",
+    takenos: ""
+};
 const CODIGOS_DESCUENTO = {
     "ONLYLORD": 10,
     "PROPOSITO": 15
@@ -45,7 +51,8 @@ const LIBRERIA_MULTITRACKS = [
 function obtenerPrecioItem(item) {
     const track = LIBRERIA_MULTITRACKS.find(t => t.id === item.id);
     if (track) return track.precio;
-    return item.precio != null ? item.precio : 0;
+    // No se acepta como precio válido un valor guardado/modificado en localStorage.
+    return 0;
 }
 
 function calcularTotalesCarrito(carrito, codigoDescuento) {
@@ -62,14 +69,8 @@ function formatearPrecioUSD(monto) {
     return `$${monto.toFixed(2)} USD`;
 }
 
-function esCompraDeBolivia() {
-    const campoPais = document.getElementById("cart-client-country");
-    return !!campoPais && campoPais.value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() === "bolivia";
-}
-
 function formatearPrecioCheckout(monto) {
-    const precioUSD = formatearPrecioUSD(monto);
-    return esCompraDeBolivia() ? `${precioUSD} (Bs ${(monto * 10).toFixed(2)})` : precioUSD;
+    return formatearPrecioUSD(monto);
 }
 
 const LIBRERIA_SONIDOS = [
@@ -322,7 +323,14 @@ function configurarAcordeonesSoporte() {
 }
 
 function obtenerCarrito() {
-    return JSON.parse(localStorage.getItem("onlylord_cart")) || [];
+    try {
+        const carrito = JSON.parse(localStorage.getItem("onlylord_cart") || "[]");
+        return Array.isArray(carrito)
+            ? carrito.filter(item => item && typeof item.id === "string")
+            : [];
+    } catch (error) {
+        return [];
+    }
 }
 
 function actualizarContadorMenu() {
@@ -338,12 +346,15 @@ function actualizarContadorMenu() {
 
 function añadirAlCarritoLocal(id, titulo, categoria, precio) {
     let carrito = obtenerCarrito();
+    if (!LIBRERIA_MULTITRACKS.some(track => track.id === id)) {
+        lanzarNotificacionPremium("Este producto no está disponible en el catálogo.");
+        return;
+    }
     if (carrito.some(item => item.id === id)) {
         lanzarNotificacionPremium(`"${titulo}" ya está en tu carrito.`);
         return;
     }
-    const precioFinal = precio != null ? precio : obtenerPrecioItem({ id });
-    carrito.push({ id, titulo, categoria, precio: precioFinal });
+    carrito.push({ id });
     localStorage.setItem("onlylord_cart", JSON.stringify(carrito));
     actualizarContadorMenu();
     lanzarNotificacionPremium(`"${titulo}" añadido al carrito.`);
@@ -356,6 +367,119 @@ function eliminarDelCarrito(id) {
     actualizarContadorMenu();
     renderizarPaginaCarrito();
     lanzarNotificacionPremium("Elemento removido.");
+}
+
+function obtenerMetodoPagoSeleccionado() {
+    const selector = document.getElementById("cart-payment-method");
+    if (!selector) return "";
+    return ["airtm", "takenos", "otro"].includes(selector.value) ? selector.value : "";
+}
+
+function obtenerNombreMetodoPago(metodo) {
+    if (metodo === "airtm") return "Airtm";
+    if (metodo === "takenos") return "Takenos";
+    if (metodo === "otro") return "Otro / por acordar";
+    return "Por coordinar";
+}
+
+function construirResumenCarritoWhatsApp(metodo) {
+    const carrito = obtenerCarrito();
+    if (carrito.length === 0) return "";
+
+    const inputDescuento = document.getElementById("cart-discount-code");
+    const codigoDescuento = inputDescuento ? inputDescuento.value.trim() : "";
+    const { subtotal, descuento, total, codigoValido, porcentajeDescuento } = calcularTotalesCarrito(carrito, codigoDescuento);
+    const lineasProductos = carrito.map((item, indice) => {
+        const track = LIBRERIA_MULTITRACKS.find(t => t.id === item.id);
+        return `${indice + 1}. *${track ? track.titulo : "Producto no disponible"}* — ${formatearPrecioCheckout(obtenerPrecioItem(item))}`;
+    });
+
+    const lineasPrecios = [
+        `*Subtotal:* ${formatearPrecioCheckout(subtotal)}`
+    ];
+    if (codigoDescuento && codigoValido) {
+        lineasPrecios.push(`*Descuento (${codigoDescuento.toUpperCase()}, ${porcentajeDescuento}%):* -${formatearPrecioCheckout(descuento)}`);
+    } else if (codigoDescuento) {
+        lineasPrecios.push(`*Código ingresado:* ${codigoDescuento.toUpperCase()} (no válido)`);
+    }
+    lineasPrecios.push(`*Total de referencia:* ${formatearPrecioCheckout(total)}`);
+
+    const indicacionMetodo = metodo === "otro"
+        ? "Coordina por este chat el método manual y el importe antes de realizar cualquier pago."
+        : "Confirma por este chat la disponibilidad y el importe antes de pagar.";
+    return `Quiero consultar disponibilidad y coordinar el pago. Esta solicitud no confirma una compra ni un pago.\n\n` +
+        `*Método de pago:* ${obtenerNombreMetodoPago(metodo)}\n` +
+        `*Productos:*\n${lineasProductos.join("\n")}\n\n` +
+        `${lineasPrecios.join("\n")}\n\n` +
+        `Precios e importe sujetos a confirmación. ${indicacionMetodo}\n` +
+        `Después de realizar el pago acordado, adjunta manualmente el comprobante en este chat.`;
+}
+
+function actualizarResumenSolicitudManual() {
+    const metodo = obtenerMetodoPagoSeleccionado();
+    const carrito = obtenerCarrito();
+    const panelQr = document.getElementById("payment-method-panel");
+    const qrAirtm = document.getElementById("payment-qr-airtm");
+    const qrTakenos = document.getElementById("payment-qr-takenos");
+    const identificadorAirtm = document.getElementById("payment-recipient-airtm");
+    const identificadorAirtmValor = document.getElementById("payment-recipient-airtm-value");
+    const identificadorTakenos = document.getElementById("payment-recipient-takenos");
+    const identificadorTakenosValor = document.getElementById("payment-recipient-takenos-value");
+    const resumen = document.getElementById("manual-payment-summary");
+    const botonFinalizar = document.getElementById("btn-finalizar-compra");
+    const tieneMetodo = !!metodo && carrito.length > 0;
+    const metodoConQr = metodo === "airtm" || metodo === "takenos";
+    const handleAirtm = IDENTIFICADORES_PUBLICOS_PAGO.airtm.trim();
+    const handleTakenos = IDENTIFICADORES_PUBLICOS_PAGO.takenos.trim();
+
+    if (panelQr) panelQr.style.display = metodoConQr ? "block" : "none";
+    if (qrAirtm) qrAirtm.style.display = metodo === "airtm" ? "block" : "none";
+    if (qrTakenos) qrTakenos.style.display = metodo === "takenos" ? "block" : "none";
+    if (identificadorAirtmValor && handleAirtm) identificadorAirtmValor.textContent = handleAirtm;
+    if (identificadorAirtm) identificadorAirtm.hidden = !handleAirtm;
+    if (identificadorTakenosValor && handleTakenos) identificadorTakenosValor.textContent = handleTakenos;
+    if (identificadorTakenos) identificadorTakenos.hidden = !handleTakenos;
+    if (resumen) resumen.style.display = tieneMetodo ? "block" : "none";
+    if (botonFinalizar) {
+        botonFinalizar.disabled = !tieneMetodo;
+        botonFinalizar.textContent = !tieneMetodo
+            ? "Elige un método de pago"
+            : metodo === "otro" ? "Consultar por WhatsApp" : "Finalizar compra";
+    }
+
+    if (!tieneMetodo) {
+        return;
+    }
+
+    const inputDescuento = document.getElementById("cart-discount-code");
+    const codigoDescuento = inputDescuento ? inputDescuento.value.trim() : "";
+    const totales = calcularTotalesCarrito(carrito, codigoDescuento);
+    const listaProductos = document.getElementById("manual-summary-products");
+    const metodoTexto = document.getElementById("manual-summary-method");
+    const subtotalTexto = document.getElementById("manual-summary-subtotal");
+    const descuentoFila = document.getElementById("manual-summary-discount-row");
+    const descuentoEtiqueta = document.getElementById("manual-summary-discount-label");
+    const descuentoTexto = document.getElementById("manual-summary-discount");
+    const totalTexto = document.getElementById("manual-summary-total");
+
+    if (listaProductos) {
+        listaProductos.replaceChildren();
+        carrito.forEach(item => {
+            const track = LIBRERIA_MULTITRACKS.find(t => t.id === item.id);
+            const linea = document.createElement("li");
+            linea.textContent = `${track ? track.titulo : "Producto no disponible"} — ${formatearPrecioCheckout(obtenerPrecioItem(item))}`;
+            listaProductos.appendChild(linea);
+        });
+    }
+    if (metodoTexto) metodoTexto.textContent = obtenerNombreMetodoPago(metodo);
+    if (subtotalTexto) subtotalTexto.textContent = formatearPrecioCheckout(totales.subtotal);
+    if (descuentoFila) {
+        descuentoFila.style.display = codigoDescuento && totales.codigoValido ? "flex" : "none";
+    }
+    if (descuentoEtiqueta) descuentoEtiqueta.textContent = `Descuento ${codigoDescuento.toUpperCase()} (${totales.porcentajeDescuento}%)`;
+    if (descuentoTexto) descuentoTexto.textContent = `-${formatearPrecioCheckout(totales.descuento)}`;
+    if (totalTexto) totalTexto.textContent = formatearPrecioCheckout(totales.total);
+
 }
 
 function renderizarPaginaCarrito() {
@@ -372,6 +496,7 @@ function renderizarPaginaCarrito() {
         contenedorLista.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 4em 0; color:rgba(255,255,255,0.3);">Tu carrito de compras se encuentra vacío.</td></tr>`;
         if (contenedorCheckout) contenedorCheckout.style.display = "none";
         if (resumenTotales) resumenTotales.style.display = "none";
+        actualizarResumenSolicitudManual();
         return;
     }
 
@@ -379,31 +504,66 @@ function renderizarPaginaCarrito() {
     if (resumenTotales) resumenTotales.style.display = "block";
 
     carrito.forEach((item, index) => {
+        const track = LIBRERIA_MULTITRACKS.find(t => t.id === item.id);
         const precio = obtenerPrecioItem(item);
         const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td><strong>${index + 1}</strong></td>
-            <td><span style="color:#ffffff; font-weight:700; text-transform:uppercase; font-size:0.9em; letter-spacing:0.05em;">${item.titulo}</span></td>
-            <td><span class="badge-soon" style="font-size:0.75em; margin:0; padding:0.2em 0.6em; background:rgba(255,255,255,0.03); border-color:rgba(255,255,255,0.1); color:rgba(255,255,255,0.6); font-family:monospace;">${item.categoria}</span></td>
-            <td class="cart-item-price" style="text-align:right; font-weight:700; color:var(--onlylord-accent);">${formatearPrecioCheckout(precio)}</td>
-            <td style="text-align:right;">
-                <button class="button small" style="height:2.4em; line-height:2.4em; padding: 0 1em; background:#ab3d26; box-shadow:none; color:#ffffff !important; border-radius:4px;" onclick="eliminarDelCarrito('${item.id}')">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </td>
-        `;
+        const numero = document.createElement("td");
+        const numeroTexto = document.createElement("strong");
+        numeroTexto.textContent = String(index + 1);
+        numero.appendChild(numeroTexto);
+
+        const nombre = document.createElement("td");
+        const nombreTexto = document.createElement("span");
+        nombreTexto.style.cssText = "color:#ffffff;font-weight:700;text-transform:uppercase;font-size:0.9em;letter-spacing:0.05em;";
+        nombreTexto.textContent = track ? track.titulo : "Producto no disponible";
+        nombre.appendChild(nombreTexto);
+
+        const categoria = document.createElement("td");
+        const categoriaTexto = document.createElement("span");
+        categoriaTexto.className = "badge-soon";
+        categoriaTexto.textContent = track ? "Multitrack Premium" : "No disponible";
+        categoria.appendChild(categoriaTexto);
+
+        const celdaPrecio = document.createElement("td");
+        celdaPrecio.className = "cart-item-price";
+        celdaPrecio.style.cssText = "text-align:right;font-weight:700;color:var(--onlylord-accent);";
+        celdaPrecio.textContent = formatearPrecioCheckout(precio);
+
+        const acciones = document.createElement("td");
+        acciones.style.textAlign = "right";
+        const botonEliminar = document.createElement("button");
+        botonEliminar.type = "button";
+        botonEliminar.className = "button small btn-cart-remove";
+        botonEliminar.setAttribute("aria-label", "Eliminar " + (track ? track.titulo : "producto no disponible"));
+        botonEliminar.innerHTML = '<i class="fas fa-trash" aria-hidden="true"></i>';
+        botonEliminar.addEventListener("click", () => eliminarDelCarrito(item.id));
+        acciones.appendChild(botonEliminar);
+
+        tr.appendChild(numero);
+        tr.appendChild(nombre);
+        tr.appendChild(categoria);
+        tr.appendChild(celdaPrecio);
+        tr.appendChild(acciones);
         contenedorLista.appendChild(tr);
     });
 
     actualizarResumenTotalesCarrito();
 
     const formCheckout = document.getElementById("form-checkout-pass");
-    if (formCheckout) {
-        formCheckout.onsubmit = (e) => {
+    if (formCheckout && !formCheckout.dataset.checkoutConfigurado) {
+        formCheckout.addEventListener("submit", (e) => {
             e.preventDefault();
             despacharCarritoAWhatsApp();
-        };
+        });
+        formCheckout.dataset.checkoutConfigurado = "true";
     }
+
+    const selectorMetodo = document.getElementById("cart-payment-method");
+    if (selectorMetodo && !selectorMetodo.dataset.configurado) {
+        selectorMetodo.addEventListener("change", actualizarResumenSolicitudManual);
+        selectorMetodo.dataset.configurado = "true";
+    }
+    actualizarResumenSolicitudManual();
 }
 
 function actualizarResumenTotalesCarrito() {
@@ -446,51 +606,63 @@ function actualizarResumenTotalesCarrito() {
             }
         }
     }
+
+    actualizarResumenSolicitudManual();
 }
 
 function despacharCarritoAWhatsApp() {
+    const formulario = document.getElementById("form-checkout-pass");
+    const estado = document.getElementById("checkout-whatsapp-status");
+    const selectorMetodo = document.getElementById("cart-payment-method");
+    const carrito = obtenerCarrito();
+    const metodo = obtenerMetodoPagoSeleccionado();
+
+    if (!formulario) return;
+    if (!formulario.checkValidity()) {
+        formulario.reportValidity();
+        return;
+    }
+    if (carrito.length === 0 || !selectorMetodo || !["airtm", "takenos", "otro"].includes(metodo)) {
+        if (estado) estado.textContent = "Completa los datos requeridos y elige un método de pago para continuar.";
+        return;
+    }
+
     const nombres = document.getElementById("cart-client-name").value.trim();
     const apellidos = document.getElementById("cart-client-lastname").value.trim();
     const pais = document.getElementById("cart-client-country").value.trim();
     const celular = document.getElementById("cart-client-phone").value.trim();
     const correo = document.getElementById("cart-client-email").value.trim();
-    const metodoPago = document.getElementById("cart-payment-method").value;
-    const codigoDescuento = document.getElementById("cart-discount-code") ? document.getElementById("cart-discount-code").value.trim() : "";
-    const carrito = obtenerCarrito();
 
-    if (!nombres || !apellidos || !pais || !celular || !correo || !metodoPago) return;
-
-    const { subtotal, descuento, total, codigoValido, porcentajeDescuento } = calcularTotalesCarrito(carrito, codigoDescuento);
-
-    let listaProductosTexto = "";
-    carrito.forEach((item, idx) => {
-        const precio = obtenerPrecioItem(item);
-        listaProductosTexto += `${idx + 1}. *${item.titulo}* [${item.categoria}] — ${formatearPrecioCheckout(precio)}\n`;
-    });
-
-    let bloquePrecios = `💰 *Subtotal:* ${formatearPrecioCheckout(subtotal)}\n`;
-    if (codigoDescuento && codigoValido) {
-        bloquePrecios += `🏷️ *Descuento:* ${codigoDescuento.toUpperCase()} -${porcentajeDescuento}% (-${formatearPrecioCheckout(descuento)})\n`;
-    } else if (codigoDescuento) {
-        bloquePrecios += `⚠️ *Código ingresado:* ${codigoDescuento.toUpperCase()} (no válido)\n`;
+    if (!nombres || !pais || !correo) {
+        if (estado) estado.textContent = "Completa tu nombre, país y correo electrónico para continuar.";
+        return;
     }
-    bloquePrecios += `✅ *TOTAL A PAGAR:* ${formatearPrecioCheckout(total)}`;
 
-    const mensaje = `¡Hola, ONLY LORD! 👋\n` +
-                    `He armado mi orden de compra desde la plataforma web oficial:\n\n` +
-                    `👤 *Cliente:* ${nombres} ${apellidos}\n` +
-                    `🌎 *País:* ${pais}\n` +
-                    `📱 *Celular:* ${celular}\n` +
-                    `📧 *Correo de Entrega:* ${correo}\n\n` +
-                    `📦 *Lista de Recursos Solicitados:*\n${listaProductosTexto}\n` +
-                    `${bloquePrecios}\n\n` +
-                    `CC: beltsasar007@gmail.com\n\n` +
-                    `💳 *Método de Pago Seleccionado:* ${metodoPago}\n\n` +
-                    `PEGA AQUI TU COMPROBANTE DE PAGO/MTCN/referencia`;
+    const mensaje = `Hola, ONLY LORD.\n\n` +
+        `*Cliente:* ${nombres}${apellidos ? " " + apellidos : ""}\n` +
+        `*País:* ${pais}\n` +
+        `*WhatsApp/teléfono:* ${celular || "No indicado"}\n` +
+        `*Correo:* ${correo}\n\n` +
+        `${construirResumenCarritoWhatsApp(metodo)}`;
 
-    localStorage.removeItem("onlylord_cart");
-    window.open(`https://wa.me/${MI_TELEFONO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`, '_blank');
-    window.location.href = "index.html";
+    const url = `https://wa.me/${MI_TELEFONO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+    const enlace = document.createElement("a");
+    enlace.href = url;
+    enlace.rel = "noopener noreferrer";
+    enlace.textContent = "Abrir WhatsApp con la consulta preparada";
+    if (estado) {
+        estado.textContent = "No se ha enviado ningún pedido ni pago. Revisa el mensaje y pulsa Enviar en WhatsApp. Adjunta manualmente el comprobante allí después de realizar el pago acordado. ";
+        estado.appendChild(enlace);
+    }
+    // Abrir en el tab actual evita que los bloqueadores de pop-ups intercepten
+    // la salida. El enlace visible queda como alternativa si la navegación falla.
+    try {
+        window.location.assign(url);
+    } catch (error) {
+        if (estado) {
+            estado.insertAdjacentText("afterbegin", "No se pudo abrir automáticamente. Usa este enlace: ");
+        }
+    }
 }
 
 function procesarPedidoPersonalizado(e) {
@@ -501,29 +673,42 @@ function procesarPedidoPersonalizado(e) {
     const correo = document.getElementById("order-client-email").value.trim();
     const pais = document.getElementById("order-client-country").value.trim();
     const telefono = document.getElementById("order-client-phone").value.trim();
+    const servicio = document.getElementById("order-service-type").value;
     const cancion = document.getElementById("order-track-name").value.trim();
     const artista = document.getElementById("order-artist-name").value.trim();
     const version = document.getElementById("order-version-name").value.trim();
+    const tonalidadBpm = document.getElementById("order-key-bpm").value.trim();
     const referencia = document.getElementById("order-link-ref").value.trim();
     const notas = document.getElementById("order-instructions").value.trim();
 
-    const mensaje = `¡Hola, ONLY LORD! 👋\n` +
-                    `Deseo contratar tu servicio de *Reconstrucción de Multitrack Personalizado*:\n\n` +
+    const mensaje = `Hola, ONLY LORD.\n` +
+                    `Quiero consultar sobre: *${servicio}*. Esta solicitud no es una contratación ni un pago.\n\n` +
                     `👤 *Datos del Cliente:*\n` +
-                    `• Nombre: ${nombres} ${apellidos}\n` +
+                    `• Nombre: ${nombres}${apellidos ? " " + apellidos : ""}\n` +
                     `• Correo: ${correo}\n` +
-                    `• País: ${pais}\n` +
-                    `• Teléfono: ${telefono}\n\n` +
-                    `🎵 *Canción:* ${cancion}\n` +
-                    `🎤 *Artista:* ${artista}\n` +
-                    `💿 *Versión / Concierto:* ${version}\n` +
+                    `• País: ${pais || "No indicado"}\n` +
+                    `• WhatsApp/teléfono: ${telefono || "No indicado"}\n\n` +
+                    `🎵 *Canción o proyecto:* ${cancion}\n` +
+                    `🎤 *Artista:* ${artista || "No indicado"}\n` +
+                    `💿 *Versión / Concierto:* ${version || "No indicado"}\n` +
+                    `🎼 *Tonalidad / BPM:* ${tonalidadBpm || "No indicado"}\n` +
                     `🔗 *Enlace de Referencia:* ${referencia ? referencia : "No especificado"}\n\n` +
                     `📝 *Indicaciones Especiales:*\n"${notas}"\n\n` +
-                    `📋 *Proceso:* Primero recibiré la cotización del multitrack. Una vez aprobada y realizado el pago, la producción se entrega en 5 días hábiles.\n\n` +
-                    `Quedo a la espera de tu confirmación de presupuesto.`;
+                    `Por favor, indica el alcance, precio, plazo estimado, formato de entrega y modificaciones incluidas. Aceptaré expresamente el presupuesto antes de pagar o iniciar el trabajo.`;
 
-    window.open(`https://wa.me/${MI_TELEFONO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`, '_blank');
-    document.getElementById("form-pedido-personalizado").reset();
+    const url = `https://wa.me/${MI_TELEFONO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, "_blank", "noopener");
+    const estado = document.getElementById("order-whatsapp-status");
+    if (estado) {
+        estado.textContent = "WhatsApp se abrirá con la consulta preparada. Aún no se ha enviado. Si no se abre, ";
+        const enlace = document.createElement("a");
+        enlace.href = url;
+        enlace.target = "_blank";
+        enlace.rel = "noopener noreferrer";
+        enlace.textContent = "abre el mensaje aquí";
+        estado.appendChild(enlace);
+        estado.appendChild(document.createTextNode("."));
+    }
 }
 
 function cargarDatosEnElMoldeDetalle() {
