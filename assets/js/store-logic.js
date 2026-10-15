@@ -404,15 +404,14 @@ function construirResumenCarritoWhatsApp(metodo) {
     }
     lineasPrecios.push(`*Total de referencia:* ${formatearPrecioCheckout(total)}`);
 
-    const indicacionMetodo = metodo === "otro"
-        ? "Coordina por este chat el método manual y el importe antes de realizar cualquier pago."
-        : "Confirma por este chat la disponibilidad y el importe antes de pagar.";
-    return `Quiero consultar disponibilidad y coordinar el pago. Esta solicitud no confirma una compra ni un pago.\n\n` +
-        `*Método de pago:* ${obtenerNombreMetodoPago(metodo)}\n` +
+    const lineaMetodo = metodo
+        ? `*Método de pago:* ${obtenerNombreMetodoPago(metodo)}\n\n`
+        : "";
+    return `Quiero consultar disponibilidad. Esta solicitud no confirma una compra ni un pago.\n\n` +
+        lineaMetodo +
         `*Productos:*\n${lineasProductos.join("\n")}\n\n` +
         `${lineasPrecios.join("\n")}\n\n` +
-        `Precios e importe sujetos a confirmación. ${indicacionMetodo}\n` +
-        `Después de realizar el pago acordado, adjunta manualmente el comprobante en este chat.`;
+        `Esta solicitud requiere confirmación manual. Confirma por este chat la disponibilidad y el importe antes de pagar.`;
 }
 
 function actualizarResumenSolicitudManual() {
@@ -427,7 +426,7 @@ function actualizarResumenSolicitudManual() {
     const identificadorTakenosValor = document.getElementById("payment-recipient-takenos-value");
     const resumen = document.getElementById("manual-payment-summary");
     const botonFinalizar = document.getElementById("btn-finalizar-compra");
-    const tieneMetodo = !!metodo && carrito.length > 0;
+    const tieneProductos = carrito.length > 0;
     const metodoConQr = metodo === "airtm" || metodo === "takenos";
     const handleAirtm = IDENTIFICADORES_PUBLICOS_PAGO.airtm.trim();
     const handleTakenos = IDENTIFICADORES_PUBLICOS_PAGO.takenos.trim();
@@ -439,15 +438,13 @@ function actualizarResumenSolicitudManual() {
     if (identificadorAirtm) identificadorAirtm.hidden = !handleAirtm;
     if (identificadorTakenosValor && handleTakenos) identificadorTakenosValor.textContent = handleTakenos;
     if (identificadorTakenos) identificadorTakenos.hidden = !handleTakenos;
-    if (resumen) resumen.style.display = tieneMetodo ? "block" : "none";
+    if (resumen) resumen.style.display = tieneProductos ? "block" : "none";
     if (botonFinalizar) {
-        botonFinalizar.disabled = !tieneMetodo;
-        botonFinalizar.textContent = !tieneMetodo
-            ? "Elige un método de pago"
-            : metodo === "otro" ? "Consultar por WhatsApp" : "Finalizar compra";
+        botonFinalizar.disabled = !tieneProductos;
+        botonFinalizar.textContent = "Finalizar compra";
     }
 
-    if (!tieneMetodo) {
+    if (!tieneProductos) {
         return;
     }
 
@@ -613,36 +610,16 @@ function actualizarResumenTotalesCarrito() {
 function despacharCarritoAWhatsApp() {
     const formulario = document.getElementById("form-checkout-pass");
     const estado = document.getElementById("checkout-whatsapp-status");
-    const selectorMetodo = document.getElementById("cart-payment-method");
     const carrito = obtenerCarrito();
     const metodo = obtenerMetodoPagoSeleccionado();
 
     if (!formulario) return;
-    if (!formulario.checkValidity()) {
-        formulario.reportValidity();
-        return;
-    }
-    if (carrito.length === 0 || !selectorMetodo || !["airtm", "takenos", "otro"].includes(metodo)) {
-        if (estado) estado.textContent = "Completa los datos requeridos y elige un método de pago para continuar.";
-        return;
-    }
-
-    const nombres = document.getElementById("cart-client-name").value.trim();
-    const apellidos = document.getElementById("cart-client-lastname").value.trim();
-    const pais = document.getElementById("cart-client-country").value.trim();
-    const celular = document.getElementById("cart-client-phone").value.trim();
-    const correo = document.getElementById("cart-client-email").value.trim();
-
-    if (!nombres || !pais || !correo) {
-        if (estado) estado.textContent = "Completa tu nombre, país y correo electrónico para continuar.";
+    if (carrito.length === 0) {
+        if (estado) estado.textContent = "Agrega al menos un producto al carrito para continuar.";
         return;
     }
 
     const mensaje = `Hola, ONLY LORD.\n\n` +
-        `*Cliente:* ${nombres}${apellidos ? " " + apellidos : ""}\n` +
-        `*País:* ${pais}\n` +
-        `*WhatsApp/teléfono:* ${celular || "No indicado"}\n` +
-        `*Correo:* ${correo}\n\n` +
         `${construirResumenCarritoWhatsApp(metodo)}`;
 
     const url = `https://wa.me/${MI_TELEFONO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;

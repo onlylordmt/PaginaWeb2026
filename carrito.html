@@ -443,16 +443,16 @@
 									<div id="checkout-area-box" style="display: none;">
 										
 										<div class="checkout-form-box">
-											<h3>Datos para consultar tu pedido</h3>
-											<p>Completa los datos necesarios para preparar un mensaje en WhatsApp. El mensaje no se envía hasta que lo revises y pulses enviar en WhatsApp. No compartas datos de tarjeta ni claves de seguridad.</p>
+											<h3>Resumen de tu pedido</h3>
+											<p>Al pulsar «Finalizar compra» se abrirá WhatsApp con el resumen de productos, precios y totales; el método de pago solo se incluirá si lo eliges. No se enviarán datos personales y no necesitas completar los datos de contacto. Revisa el mensaje y pulsa Enviar en WhatsApp; la disponibilidad y el importe requieren confirmación manual. No compartas datos de tarjeta ni claves de seguridad.</p>
 											
-											<form id="form-checkout-pass">
+											<form id="form-checkout-pass" novalidate>
 												<div class="fields">
 													
 													<div class="field half">
-														<label for="cart-client-name">Nombre</label>
+														<label for="cart-client-name">Nombre (opcional)</label>
 														<div class="input-icon-wrapper">
-															<input type="text" id="cart-client-name" placeholder="Ej: Juan Carlos" required />
+															<input type="text" id="cart-client-name" placeholder="Ej: Juan Carlos" />
 															<i class="fas fa-user"></i>
 														</div>
 													</div>
@@ -466,9 +466,9 @@
 													</div>
 													
 													<div class="field half">
-														<label for="cart-client-country">País</label>
+														<label for="cart-client-country">País (opcional)</label>
 														<div class="input-icon-wrapper">
-															<input type="text" id="cart-client-country" placeholder="Ej: Bolivia, España" autocomplete="country-name" required />
+															<input type="text" id="cart-client-country" placeholder="Ej: Bolivia, España" autocomplete="country-name" />
 															<i class="fas fa-globe-americas"></i>
 														</div>
 													</div>
@@ -482,9 +482,9 @@
 													</div>
 													
 													<div class="field">
-														<label for="cart-client-email">Correo electrónico</label>
+														<label for="cart-client-email">Correo electrónico (opcional)</label>
 														<div class="input-icon-wrapper">
-															<input type="email" id="cart-client-email" placeholder="tu@correo.com" required />
+															<input type="email" id="cart-client-email" placeholder="tu@correo.com" />
 															<i class="fas fa-envelope"></i>
 														</div>
 													</div>
@@ -496,9 +496,9 @@
 												</div>
 
 												<div class="field">
-													<label for="cart-payment-method">Método de pago manual</label>
+													<label for="cart-payment-method">Método de pago manual (opcional)</label>
 													<div class="input-icon-wrapper">
-														<select id="cart-payment-method" required>
+														<select id="cart-payment-method">
 															<option value="" selected disabled>Elige un método de pago</option>
 															<option value="airtm">Airtm</option>
 															<option value="takenos">Takenos</option>
@@ -540,15 +540,11 @@
 													<p style="margin:0.8em 0 0;">Importes sujetos a confirmación de disponibilidad y total final por WhatsApp. Este resumen no es un cobro ni confirma una compra o pago.</p>
 												</section>
 
-												<div class="field">
-													<input type="checkbox" id="cart-privacy" required />
-													<label for="cart-privacy">He leído la <a href="privacidad.html">política de privacidad</a> y entiendo que, si envío el mensaje desde WhatsApp, compartiré allí estos datos para tramitar mi consulta.</label>
-												</div>
 												<p id="checkout-whatsapp-status" aria-live="polite"></p>
 												<ul class="actions stacked">
 													<li>
 														<button type="submit" id="btn-finalizar-compra" class="button primary btn-checkout-finish" disabled>
-															Elige un método de pago
+															Finalizar compra
 														</button>
 													</li>
 												</ul>
