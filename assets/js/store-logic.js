@@ -388,30 +388,38 @@ function construirResumenCarritoWhatsApp(metodo) {
 
     const inputDescuento = document.getElementById("cart-discount-code");
     const codigoDescuento = inputDescuento ? inputDescuento.value.trim() : "";
-    const { subtotal, descuento, total, codigoValido, porcentajeDescuento } = calcularTotalesCarrito(carrito, codigoDescuento);
+    const { subtotal, descuento, total, codigoValido } = calcularTotalesCarrito(carrito, codigoDescuento);
     const lineasProductos = carrito.map((item, indice) => {
         const track = LIBRERIA_MULTITRACKS.find(t => t.id === item.id);
-        return `${indice + 1}. *${track ? track.titulo : "Producto no disponible"}* — ${formatearPrecioCheckout(obtenerPrecioItem(item))}`;
+        return `  - *${track ? track.titulo : "Producto no disponible"}* — ${formatearPrecioCheckout(obtenerPrecioItem(item))}`;
     });
 
-    const lineasPrecios = [
-        `*Subtotal:* ${formatearPrecioCheckout(subtotal)}`
-    ];
-    if (codigoDescuento && codigoValido) {
-        lineasPrecios.push(`*Descuento (${codigoDescuento.toUpperCase()}, ${porcentajeDescuento}%):* -${formatearPrecioCheckout(descuento)}`);
-    } else if (codigoDescuento) {
-        lineasPrecios.push(`*Código ingresado:* ${codigoDescuento.toUpperCase()} (no válido)`);
-    }
-    lineasPrecios.push(`*Total de referencia:* ${formatearPrecioCheckout(total)}`);
+    const leerCampo = id => {
+        const campo = document.getElementById(id);
+        return campo ? campo.value.trim() : "";
+    };
+    const nombre = [leerCampo("cart-client-name"), leerCampo("cart-client-lastname")].filter(Boolean).join(" ");
+    const pais = leerCampo("cart-client-country");
+    const correo = leerCampo("cart-client-email");
+    const metodoSeleccionado = metodo ? obtenerNombreMetodoPago(metodo) : "";
+    const lineasPrecios = [`  Subtotal: ${formatearPrecioCheckout(subtotal)}`];
+    if (codigoValido) lineasPrecios.push(`  Descuento: -${formatearPrecioCheckout(descuento)}`);
+    lineasPrecios.push(`  Total: ${formatearPrecioCheckout(total)}`);
 
-    const lineaMetodo = metodo
-        ? `*Método de pago:* ${obtenerNombreMetodoPago(metodo)}\n\n`
-        : "";
-    return `Quiero consultar disponibilidad. Esta solicitud no confirma una compra ni un pago.\n\n` +
-        lineaMetodo +
-        `*Productos:*\n${lineasProductos.join("\n")}\n\n` +
-        `${lineasPrecios.join("\n")}\n\n` +
-        `Esta solicitud requiere confirmación manual. Confirma por este chat la disponibilidad y el importe antes de pagar.`;
+    return `Hola, *ONLY LORD*.\n` +
+        `Solicito confirmación de disponibilidad para el siguiente pedido:\n\n` +
+        `*📋 DATOS DEL CLIENTE*\n` +
+        `• Nombre: ${nombre}\n` +
+        `• País: ${pais}\n` +
+        `• Correo electrónico: ${correo}\n` +
+        `• Método de pago: ${metodoSeleccionado}\n\n` +
+        `*🛒 RESUMEN DE LA COMPRA*\n` +
+        `• Producto:\n${lineasProductos.join("\n")}\n` +
+        `• Precio:\n${lineasPrecios.join("\n")}\n\n` +
+        `*💳 COMPROBANTE DE PAGO*\n` +
+        `[Adjuntar comprobante de pago aquí]\n\n` +
+        `Quedo a la espera de la confirmación del envio de la compra\n` +
+        `Gracias.`;
 }
 
 function actualizarResumenSolicitudManual() {
@@ -619,8 +627,7 @@ function despacharCarritoAWhatsApp() {
         return;
     }
 
-    const mensaje = `Hola, ONLY LORD.\n\n` +
-        `${construirResumenCarritoWhatsApp(metodo)}`;
+    const mensaje = construirResumenCarritoWhatsApp(metodo);
 
     const url = `https://wa.me/${MI_TELEFONO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
     const enlace = document.createElement("a");
@@ -628,7 +635,7 @@ function despacharCarritoAWhatsApp() {
     enlace.rel = "noopener noreferrer";
     enlace.textContent = "Abrir WhatsApp con la consulta preparada";
     if (estado) {
-        estado.textContent = "No se ha enviado ningún pedido ni pago. Revisa el mensaje y pulsa Enviar en WhatsApp. Adjunta manualmente el comprobante allí después de realizar el pago acordado. ";
+        estado.textContent = "Revisa la plantilla y el pedido; pulsa Enviar en WhatsApp y adjunta allí el comprobante de pago. ";
         estado.appendChild(enlace);
     }
     // Abrir en el tab actual evita que los bloqueadores de pop-ups intercepten
