@@ -9,44 +9,43 @@ const IDENTIFICADORES_PUBLICOS_PAGO = {
     airtm: "",
     takenos: ""
 };
-const CODIGOS_DESCUENTO = {
-    "ONLYLORD": 10,
-    "PROPOSITO": 15
-};
-
 const PLAYLIST_CURSOS_YT = "https://youtube.com/playlist?list=PLWw6Mm4O7Oz0&si=hoE38sSsruOortGy";
 const PLAYLIST_MULTITRACKS_GRATIS_YT = "https://youtube.com/playlist?list=PLCxE4itUOy5CQJ_Qdf617buH2ZrT6sWKA&si=XgAgkO-yx8VmDD70";
 
 const LIBRERIA_MULTITRACKS = [
-    { id: "intro-25-anos-miel-san-marcos", titulo: "INTRO 25 Años", artista: "MIEL SAN MARCOS", precio: 15, ytId: "a5tzxtVzXYU", acorde: "Re Mayor", tempo: "75 bpm", cantidadTracks: 14, pesoTrack: "31 MB", sampleRate: "44.1 kHz", tags: ["intro", "worship", "miel san marcos"], stems: ["Acustic", "Arp", "Click Track", "Drums Live", "EG Amb", "EG", "Fx", "Guia", "Loop", "Pads", "Percusion", "Piano", "Strings", "Synth Bass"] },
-    { id: "intro-yeshua-hamashiaj", titulo: "INTRO + YESHUA HAMASHIAJ", artista: "MONTE SANTO EN CONCIERTO", precio: 15, ytId: "P6edqId1N48", acorde: "Mib Menor", tempo: "140 bpm", cantidadTracks: 15, pesoTrack: "83 Mb", sampleRate: "44.1 kHz", tags: ["intro", "worship", "live", "monte santo"], stems: ["AC", "Bass", "Choir", "Click Track", "Drums Live", "EG 1 – 4", "Guia", "Fx & Loop", "Keys 1 y 2", "Orq", "Piano"] },
-    { id: "en-los-montes", titulo: "EN LOS MONTES LEGADO", artista: "MARCOS WITT", precio: 15, ytId: "zGiTsZVtQ9A", acorde: "Re Menor", tempo: "116 bpm", cantidadTracks: 26, pesoTrack: "102 Mb", sampleRate: "44.1 kHz", tags: ["clasico", "rock", "worship", "brass"], stems: ["Arp Bells", "Bass", "Clap", "Click Track", "Drop 1 y 2", "Drums Live", "Dubstep Drop", "EG 1, 2 y 3", "Fx", "Guia", "Metales", "Pads", "Percusion", "Pluck 1, 2 y 3", "Synth 1, 2 y 3", "Synth Bass 1 y 2", "Vox"] },
-    { id: "intro-lion", titulo: "INTRO LION", artista: "BRANDON LAKE", precio: 15, ytId: "NHieltD_310", acorde: "Re Menor", tempo: "134 bpm", cantidadTracks: 15, pesoTrack: "28 Mb", sampleRate: "44.1 kHz", tags: ["intro", "worship", "synth", "live"], stems: ["AC", "Bass", "Click Track", "Drums Live", "EG 1 y 2", "Guia", "Keys 1, 2 y 3", "Loop y Fx", "Piano", "Synth Bass 1 y 2", "Vox"] },
-    { id: "intro-concierto", titulo: "INTRO CONCIERTO", artista: "MONTE SANTO", precio: 15, ytId: "BQFtmlfKr0Y", acorde: "Re Mayor", tempo: "134 bpm", cantidadTracks: 15, pesoTrack: "22 Mb", sampleRate: "44.1 kHz", tags: ["intro", "worship", "keys", "strings"], stems: ["Bass", "Click Track", "Drums", "EG 1, 2 y 3", "Guia", "Keys 1 y 2", "Loop y Fx", "Pad", "Percusion", "Piano", "Strings"] },
-    { id: "venga-tu-reino", titulo: "VENGA TU REINO", artista: "HILLSONG / ONLY LORD", precio: 12, ytId: "ipMtyBpOgSU", acorde: "Si Menor", tempo: "150 bpm", cantidadTracks: 15, pesoTrack: "75 Mb", sampleRate: "44.1 kHz", tags: ["worship", "hillsong", "live", "strings"], stems: ["Arp", "Bass", "Bells", "Click Track", "Drums Live", "EG 1 y 2", "Fx", "Keys", "Guia", "Piano", "Strings", "Synth Bass", "Voz", "Vox"] },
-    { id: "medley-eres-fiel-ag", titulo: "MEDLEY ERES FIEL", artista: "AG MUSIC", precio: 25, ytId: "pp6rCjdzHGQ", acorde: "Variable", tempo: "Variable", cantidadTracks: 18, pesoTrack: "193 Mb", sampleRate: "44.1 kHz", tags: ["medley", "worship", "guitarras", "mix"], stems: ["Arp", "Bass", "Bells", "Click Track", "Drums Live", "EG 1 y 2", "Guia", "Fx & Loop", "Keys 1 y 2", "Lead", "Pad", "Piano", "Synth Bass", "Vox", "Voz Guia"] },
-    { id: "cantaremos", titulo: "CANTAREMOS DE TU GRAN AMOR", artista: "BARAK / ONLY LORD", precio: 15, ytId: "QQS3hc00RK4", acorde: "Sol Menor", tempo: "142 bpm", cantidadTracks: 20, pesoTrack: "79.3 Mb", sampleRate: "44.1 kHz", tags: ["worship", "adoracion", "live", "brass"], stems: ["Arp 1 y 2", "Bass", "Brass", "Click Track", "Drop", "Drums Live", "EG 1 y 2", "Fx", "Guia", "Lead 1 y 2", "Loop", "Pads", "Pluck", "Synth", "Synth Bass", "Vox 1 y 2"] },
-    { id: "hay-libertad-remix", titulo: "HAY LIBERTAD REMIX", artista: "ART AGUILERA / ONLY LORD", precio: 10, ytId: "9h0NwcsWMNE", acorde: "Re Menor", tempo: "150 bpm", cantidadTracks: 22, pesoTrack: "67 Mb", sampleRate: "44.1 kHz", tags: ["remix", "edm", "electro", "dance"], stems: ["Arp", "Bass", "Click Track", "Coros", "Drums Live", "EG 1 y 2", "EG AC", "Fx", "Guia", "Keys", "Pad 1 y 2", "Lead 1 y 2", "Piano", "Pluck", "Synth", "Synth Bass", "Vox"] },
-    { id: "mix-naciones", titulo: "MIX NACIONES", artista: "NEW WINE", precio: 22, ytId: "CdCnEwtuaTU", acorde: "Variable", tempo: "Variable", cantidadTracks: 15, pesoTrack: "160 Mb", sampleRate: "44.1 kHz", tags: ["medley", "worship", "brass", "live"], stems: ["Arp", "Acordeon", "Bass", "Brass", "Click Track", "Drums Live", "EG 1 y 2", "EG AC", "Guia", "Pad", "Percussion", "Piano", "Sax", "Violin"] },
-    { id: "con-toda-mi-alma-comando-gaf", titulo: "CON TODA MI ALMA / CON TODA MI VIDA", artista: "COMANDO GAF", precio: 15, ytId: "a5aqL5txrP4", acorde: "Re Menor", tempo: "155 bpm", cantidadTracks: 11, pesoTrack: "57 Mb", sampleRate: "44.1 kHz", tags: ["comando gaf", "worship", "horns", "synth"], stems: ["Arp", "Bass", "Horns", "Click Track", "Drums Live", "EG 1", "EG 2", "Guia", "Fx & Drop", "Synth", "Synth Bass"] },
-    { id: "bye-bye-pa-que-preguntan", titulo: "BYE BYE / PA´QUE PREGUNTAN", artista: "ALEX ZURDO", precio: 10, ytId: "aWsW8rvsOaA", acorde: "Variable", tempo: "95–97 bpm", cantidadTracks: 13, pesoTrack: "74 Mb", sampleRate: "44.1 kHz", tags: ["alex zurdo", "urbano", "rap", "synth"], stems: ["Click Track", "Drums Live", "EG Sample", "Loop", "Guia", "Pad", "Pluck", "Piano", "Rhodes", "Synth Bass", "Synth Fx", "Synth Sample", "Voz Guia"] },
-    { id: "salmos-99", titulo: "SALMOS 99", artista: "NEW WINE", precio: 15, ytId: "EiE_1wigCRU", acorde: "La Menor", tempo: "135 bpm", cantidadTracks: 11, pesoTrack: "52 Mb", sampleRate: "44.1 kHz", tags: ["worship", "brass", "live", "piano"], stems: ["Brass", "Bass", "Click Track", "Drums Live", "EG 1 y 2", "Fx", "Guia", "Lead", "Percusion", "Piano"] },
-    { id: "remolino", titulo: "REMOLINO", artista: "NEW WINE", precio: 15, ytId: "WLNGleSSh2M", acorde: "Sol Menor", tempo: "172 bpm", cantidadTracks: 14, pesoTrack: "56 Mb", sampleRate: "44.1 kHz", tags: ["worship", "jubilo", "brass", "live"], stems: ["Brass", "Bass", "Click Track", "Drums Live", "EG 1 y 2", "EG AC", "Fx", "Guia", "Keys", "Lead", "Loop", "Pluck", "Strings"] },
-    { id: "salmos-133", titulo: "SALMOS 133 / SOBRENATURAL", artista: "NEW WINE", precio: 20, ytId: "b5d5j3CW6Vo", acorde: "Variable", tempo: "Variable", cantidadTracks: 17, pesoTrack: "96 Mb", sampleRate: "44.1 kHz", tags: ["worship", "medley", "brass", "live"], stems: ["AC", "Bass", "Brass", "Click Track", "Coros", "Drums Live", "EG", "Guiro", "Guia", "Keys 1 y 2", "Percusion", "Piano", "Sax", "Trompetas", "Voz"] },
-    { id: "lo-que-dios-dice", titulo: "LO QUE DIOS DICE QUE SOY", artista: "ADORACION IGLESIA CRISTIANA", precio: 15, ytId: "w_LFCopstUk", acorde: "Fa# Mayor", tempo: "105 bpm", cantidadTracks: 12, pesoTrack: "61 Mb", sampleRate: "44.1 kHz", tags: ["worship", "soft", "strings", "piano"], stems: ["Arp", "Bass", "Brass", "Click Track", "Drums Live", "EG 1 y 2", "Guia", "Loop", "Piano", "Strings", "Voz"] },
-    { id: "alma-mia", titulo: "ALMA MIA", artista: "DENICHER POL", precio: 15, ytId: "4TulfAu8AeU", acorde: "Fa Mayor", tempo: "130 bpm", cantidadTracks: 17, pesoTrack: "192 Mb", sampleRate: "44.1 kHz", tags: ["worship", "orquestal", "piano", "strings"], stems: ["Arp Strings", "Arp", "Bass", "Bells", "Brass cinematic", "Click Track", "Drums Live", "EG AC", "EG", "Fx", "Guia", "Pad", "Piano", "Strings Bass", "Strings", "Violines 1 y 2"] },
-    { id: "medley-ii", titulo: "MEDLEY II", artista: "AG MUSIC", precio: 19, ytId: "4iGNPJgOOIw", acorde: "Variable", tempo: "Variable", cantidadTracks: 20, pesoTrack: "171 Mb", sampleRate: "44.1 kHz", tags: ["medley", "worship", "guitarras", "mix"], stems: ["Arp", "Bass", "Bells", "Click Track", "Drums Live", "EG 1, 2 y 3", "EG Amb", "EG Clean", "EG Mute", "Guia", "Keys", "Loop", "Organ", "Piano", "Pluck", "Strings", "Synth", "Voz"] },
-    { id: "medley-celebra", titulo: "MEDLEY CELEBRA VICTORIOSO", artista: "BRIMMER / ONLY LORD", precio: 33, ytId: "R52eoZr_sWg", acorde: "Variable", tempo: "Variable", cantidadTracks: 23, pesoTrack: "232 Mb", sampleRate: "44.1 kHz", tags: ["medley", "jubilo", "worship", "brass"], stems: ["Bass", "Brass", "Click Track", "Drums Live", "EG 1 - 6", "Fx", "Keys 1, 2, 3 y 4", "Guia", "Loop y Percusion", "Pad", "Piano", "Pluck", "Synth Lead", "Synth Bass", "Violin"] },
-    { id: "fiesta-desierto-remix", titulo: "FIESTA EN EL DESIERTO REMIX", artista: "MONTE SANTO / WORSHIP BAND LIVE & ARTURY PEPPER", precio: 10, ytId: "_LnW2izFevI", acorde: "Do# Menor", tempo: "125-140 bpm", cantidadTracks: 27, pesoTrack: "76 Mb", sampleRate: "44.1 kHz", tags: ["remix", "worship", "live", "monte santo"], stems: ["Bass", "Bells", "Arp", "BGVS", "Click Track", "Choir 1 y 2", "Drums Live", "EG 1 – 5", "Guia", "Fx", "Keys 1 - 3", "Loop", "Piano", "Pad 1 y 2", "Strings", "Synth 1 - 4", "Voz"] },
-    { id: "estoy-convencido", titulo: "ESTOY CONVENCIDO", artista: "AVERLY MORRILLO / WORSHIP BAND LIVE", precio: 9, ytId: "OscK7rdACjc", acorde: "Mi Mayor", tempo: "127 bpm (6/4)", cantidadTracks: 16, pesoTrack: "75 Mb", sampleRate: "44.1 kHz", tags: ["worship", "balada", "live", "strings"], stems: ["Arp", "Bass", "Bells", "Click Track", "Drums Live", "EG", "EG AC", "Fx", "Keys", "Guia", "Pad 1 y 2", "Piano", "Strings", "Synth 1 y 2"] },
-    { id: "intro-nuestro-dios", titulo: "INTRO + NUESTRO DIOS", artista: "MARCO BARRIENTOS", precio: 15, ytId: "14eRH7z7lg4", acorde: "Sol Menor", tempo: "144 bpm", cantidadTracks: 17, pesoTrack: "105 Mb", sampleRate: "44.1 kHz", tags: ["intro", "worship", "rock", "synth"], stems: ["Arp 1 y 2", "Bass", "Bells", "Click Track", "Drums Live", "EG 1, 2 y 3", "Fx", "Guia", "Keys", "Loop", "Pad 1 y 2", "Synth Bass", "Synth"] },
-    { id: "padre-bueno", titulo: "PADRE BUENO", artista: "ALEX MARQUEZ", precio: 15, ytId: "jD81VUqcRBE", acorde: "Sol Mayor", tempo: "132 bpm", cantidadTracks: 17, pesoTrack: "200 Mb", sampleRate: "48.1 kHz", tags: ["worship", "soft", "strings", "choir"], stems: ["Arp", "Bass", "Bells", "Cello", "Choir", "Click Track", "Drums Live", "EG", "EG AC", "EG Mute", "Guia", "Fx", "Keys", "Pad 1 y 2", "Piano", "Violines"] },
-    { id: "intro-tu-hijo-soy", titulo: "INTRO TU HIJO SOY", artista: "BARAK LIVE / DAVID NOLASCO", precio: 13, ytId: "RjpYd6R5msg", acorde: "Fa# Menor", tempo: "134 bpm", cantidadTracks: 26, pesoTrack: "162 Mb", sampleRate: "44.1 kHz", tags: ["intro", "worship", "live", "choir"], stems: ["Alto 1 y 2", "Arp 1 y 2", "BGVS 1 y 2", "Choir", "Click Track", "Drums Live", "EG 1, 2 y 3", "Guia", "Keys 1 – 4", "Organ", "Percusion", "Piano", "Synth Bass 1 y 2", "Synth Orq", "Tenor", "Vox Fx 1 y 2"] },
-    { id: "salvador", titulo: "SALVADOR", artista: "LA HORMIGA", precio: 9, ytId: "qTNHdnxHd-o", acorde: "Sol Menor", tempo: "118 bpm", cantidadTracks: 12, pesoTrack: "45 Mb", sampleRate: "44.1 kHz", tags: ["rock", "worship", "organ", "live"], stems: ["Bass", "Brass", "Click Track", "Drums Live", "EG 1 y 2", "Guia", "Keys", "Organ", "Fx", "Voz", "Loop"] },
-    { id: "medley-eres-fiel", titulo: "MEDLEY ERES FIEL", artista: "JORGE PRIVADO", precio: 10, ytId: "ltq4ewmC9aE", acorde: "Variable", tempo: "Variable", cantidadTracks: 13, pesoTrack: "150 Mb", sampleRate: "44.1 kHz", tags: ["medley", "worship", "organ", "rock"], stems: ["Bass", "Brass", "Click Track", "EG 1, 2 y 3", "Guia", "Keys 1 y 2", "Loop", "Piano", "Organ", "Synth Bass"] },
-    { id: "cuando-conoci", titulo: "CUANDO YO TE CONOCI", artista: "ALEX ZURDO / GENERACION PENTECOSTAL", precio: 5, ytId: "LnJCi9AvAbE", acorde: "Variable", tempo: "90 bpm", cantidadTracks: 22, pesoTrack: "61 Mb", sampleRate: "44.1 kHz", tags: ["pop", "urban", "worship", "guitarras"], stems: ["Bass", "Click Track", "Drums Live", "EG 1 – 4", "EG AC 1 - 3", "Guia", "Keys 1 - 3", "Loop", "Piano", "Pad", "Synth Bass", "Voz"] },
-    { id: "con-poder", titulo: "CON PODER", artista: "BARAK LIVE / DAVID NOLASCO", precio: 9, ytId: "vVI-M39MZdw", acorde: "Si Menor", tempo: "75 bpm", cantidadTracks: 18, pesoTrack: "103 Mb", sampleRate: "44.1 kHz", tags: ["worship", "live", "rock", "pads"], stems: ["Bass", "Arp", "BGVS", "Click Track", "Drums Live", "EG 1 – 6", "Guia", "Fx", "Keys", "Piano", "Pad", "Voz"] },
-    { id: "hosanna-remix", titulo: "HOSANNA REMIX", artista: "MARCOS BARRIENTOS", precio: 5, ytId: "1HMqnlELzD0", acorde: "Si Menor", tempo: "146 bpm", cantidadTracks: 21, pesoTrack: "98 Mb", sampleRate: "44.1 kHz", tags: ["remix", "worship", "edm", "live"], stems: ["Bass", "Arp", "BGVS", "Click Track", "Drums Live", "EG 1 – 4", "Guia", "Fx", "Keys", "Loop", "Piano", "Pad 1 y 2", "Strings", "Synth 1 - 4", "Voz"] }
+    { id: "alma-mia", titulo: "ALMA MÍA", artista: "DENICHER POL", precio: 19.99, ytId: "4TulfAu8AeU", gumroadUrl: "https://beltsasar.gumroad.com/l/almamiaLord?wanted=true", acorde: "Fa Mayor", tempo: "130 bpm", cantidadTracks: 17, pesoTrack: "192 Mb", distribucion: "Empaquetado .ZIP", tags: ["worship", "orquestal", "piano", "strings"], stems: ["Arp Strings", "Arp", "Bass", "Bells", "Brass cinematic", "Click Track", "Drums Live", "EG AC", "EG", "Fx", "Guia", "Pad", "Piano", "Strings Bass", "Strings", "Violines 1 y 2"] },
+    { id: "cantaremos", titulo: "CANTAREMOS DE TU GRAN AMOR", artista: "BARAK / ONLY LORD", precio: 19.99, ytId: "QQS3hc00RK4", gumroadUrl: "https://beltsasar.gumroad.com/l/cantamorLord?wanted=true", acorde: "Sol Menor", tempo: "142 bpm", cantidadTracks: 20, pesoTrack: "79.3 Mb", distribucion: "Empaquetado .ZIP", tags: ["worship", "adoracion", "live", "brass"], stems: ["Arp 1 y 2", "Bass", "Brass", "Click Track", "Drop", "Drums Live", "EG 1 y 2", "Fx", "Guia", "Lead 1 y 2", "Loop", "Pads", "Pluck", "Synth", "Synth Bass", "Vox 1 y 2"] },
+    { id: "en-los-montes", titulo: "EN LOS MONTES LEGADO", artista: "MARCOS WITT", precio: 19.99, ytId: "zGiTsZVtQ9A", gumroadUrl: "https://beltsasar.gumroad.com/l/monteslegadoLord?wanted=true", acorde: "Re Menor", tempo: "116 bpm", cantidadTracks: 26, pesoTrack: "102 Mb", distribucion: "Empaquetado .ZIP", tags: ["clasico", "rock", "worship", "brass"], stems: ["Arp Bells", "Bass", "Clap", "Click Track", "Drop 1 y 2", "Drums Live", "Dubstep Drop", "EG 1, 2 y 3", "Fx", "Guia", "Metales", "Pads", "Percusion", "Pluck 1, 2 y 3", "Synth 1, 2 y 3", "Synth Bass 1 y 2", "Vox"] },
+    { id: "hay-libertad-remix", titulo: "HAY LIBERTAD REMIX", artista: "ART AGUILERA / ONLY LORD", precio: 13.99, ytId: "9h0NwcsWMNE", gumroadUrl: "https://beltsasar.gumroad.com/l/haylibertadremixLord?wanted=true", acorde: "Re Menor", tempo: "150 bpm", cantidadTracks: 22, pesoTrack: "67 Mb", distribucion: "Empaquetado .ZIP", tags: ["remix", "edm", "electro", "dance"], stems: ["Arp", "Bass", "Click Track", "Coros", "Drums Live", "EG 1 y 2", "EG AC", "Fx", "Guia", "Keys", "Pad 1 y 2", "Lead 1 y 2", "Piano", "Pluck", "Synth", "Synth Bass", "Vox"] },
+    { id: "intro-lion", titulo: "INTRO LION", artista: "BRANDOM LAKE", precio: 19.99, ytId: "NHieltD_310", gumroadUrl: "https://beltsasar.gumroad.com/l/introlionLord?wanted=true", acorde: "Re Menor", tempo: "134 bpm", cantidadTracks: 15, pesoTrack: "28 Mb", distribucion: "Empaquetado .ZIP", tags: ["intro", "worship", "synth", "live"], stems: ["AC", "Bass", "Click Track", "Drums Live", "EG 1 y 2", "Guia", "Keys 1, 2 y 3", "Loop y Fx", "Piano", "Synth Bass 1 y 2", "Vox"] },
+    { id: "intro-bautizados-en-fuego", titulo: "INTRO + BAUTIZADOS EN FUEGO", artista: "MONTE SANTO", precio: 19.99, ytId: "BQFtmlfKr0Y", gumroadUrl: "https://beltsasar.gumroad.com/l/introbautizadosLord?wanted=true", acorde: "Re Mayor", tempo: "134 bpm", cantidadTracks: 15, pesoTrack: "22 Mb", distribucion: "Empaquetado .ZIP", tags: ["intro", "worship", "monte santo", "live"], stems: ["Bass", "Click Track", "Drums", "EG 1, 2 y 3", "Guia", "Keys 1 y 2", "Loop y Fx", "Pad", "Percusion", "Piano", "Strings"] },
+    { id: "medley-ii", titulo: "MEDLEY II", artista: "AG MUSIC", precio: 35.99, ytId: "4iGNPJgOOIw", gumroadUrl: "https://beltsasar.gumroad.com/l/MedleyAGMusicLord?wanted=true", acorde: "Variable", tempo: "Variable", cantidadTracks: 20, pesoTrack: "171 Mb", distribucion: "Empaquetado .ZIP", tags: ["medley", "worship", "ag music"], stems: ["Arp", "Bass", "Bells", "Click Track", "Drums Live", "EG 1, 2 y 3", "EG Amb", "EG Clean", "EG Mute", "Guia", "Keys", "Loop", "Organ", "Piano", "Pluck", "Strings", "Synth", "Voz"] },
+    { id: "medley-celebra-victorioso", titulo: "MEDLEY CELEBRA VICTORIOSO", artista: "BRIMMER / ONLY LORD", precio: 33.99, ytId: "R52eoZr_sWg", gumroadUrl: "https://beltsasar.gumroad.com/l/ketcvn?wanted=true", acorde: "Variable", tempo: "Variable", cantidadTracks: 23, pesoTrack: "232 Mb", tags: ["medley", "victorioso", "brimmer"], stems: ["Bass", "Brass", "Click Track", "Drums Live", "EG 1 - 6", "Fx", "Keys 1, 2, 3 y 4", "Guia", "Loop y Percusion", "Pad", "Piano", "Pluck", "Synth Lead", "Synth Bass", "Violin"] },
+    { id: "estoy-convencido", titulo: "ESTOY CONVENCIDO", artista: "AVERLY MORRILLO / WORSHIP BAND LIVE", precio: 13.99, ytId: "OscK7rdACjc", gumroadUrl: "https://beltsasar.gumroad.com/l/estoyconvLord?wanted=true", acorde: "Mi Mayor", tempo: "127 bpm · 6/4", cantidadTracks: 16, pesoTrack: "75 Mb", distribucion: "Empaquetado .ZIP", tags: ["worship", "live", "averly morillo"], stems: ["Arp", "Bass", "Bells", "Click Track", "Drums Live", "EG", "EG AC", "Fx", "Keys", "Guia", "Pad 1 y 2", "Piano", "Strings", "Synth 1 y 2"] },
+    { id: "venga-tu-reino", titulo: "VENGA TU REINO", artista: "HILLSONG / ONLY LORD", precio: 13.99, ytId: "ipMtyBpOgSU", ytStart: 6, gumroadUrl: "https://beltsasar.gumroad.com/l/ventureinoLord?wanted=true", acorde: "Si Menor", tempo: "150 bpm", cantidadTracks: 15, pesoTrack: "75 Mb", distribucion: "Empaquetado .ZIP", tags: ["worship", "hillsong", "live", "strings"], stems: ["Arp", "Bass", "Bells", "Click Track", "Drums Live", "EG 1 y 2", "Fx", "Keys", "Guia", "Piano", "Strings", "Synth Bass", "Voz", "Vox"] },
+    { id: "intro-nuestro-dios", titulo: "INTRO + NUESTRO DIOS", artista: "MARCO BARRIENTOS", precio: 19.99, ytId: "14eRH7z7lg4", ytStart: 69, gumroadUrl: "https://beltsasar.gumroad.com/l/intrombLord?wanted=true", acorde: "Sol Menor", tempo: "144 bpm", cantidadTracks: 17, pesoTrack: "105 Mb", distribucion: "Empaquetado .ZIP", tags: ["intro", "worship", "marco barrientos"], stems: ["Arp 1 y 2", "Bass", "Bells", "Click Track", "Drums Live", "EG 1, 2 y 3", "Fx", "Guia", "Keys", "Loop", "Pad 1 y 2", "Synth Bass", "Synth"] },
+    { id: "salmos-133", titulo: "SALMOS 133 / SOBRENATURAL", artista: "NEW WINE", precio: 25.99, ytId: "b5d5j3CW6Vo", gumroadUrl: "https://beltsasar.gumroad.com/l/NW1Lord?wanted=true", acorde: "Variable", tempo: "Variable", cantidadTracks: 17, pesoTrack: "96 Mb", distribucion: "Empaquetado .ZIP", tags: ["worship", "medley", "brass", "live"], stems: ["AC", "Bass", "Brass", "Click Track", "Coros", "Drums Live", "EG", "Guiro", "Guia", "Keys 1 y 2", "Percusion", "Piano", "Sax", "Trompetas", "Voz"] },
+    { id: "padre-bueno", titulo: "PADRE BUENO", artista: "ALEX MARQUEZ", precio: 19.99, ytId: "jD81VUqcRBE", gumroadUrl: "https://beltsasar.gumroad.com/l/padrebuenoLord?wanted=true", acorde: "Sol Mayor", tempo: "132 bpm", cantidadTracks: 17, pesoTrack: "200 Mb", distribucion: "Empaquetado .ZIP", tags: ["worship", "alex marquez", "orquestal"], stems: ["Arp", "Bass", "Bells", "Cello", "Choir", "Click Track", "Drums Live", "EG", "EG AC", "EG Mute", "Guia", "Fx", "Keys", "Pad 1 y 2", "Piano", "Violines"] },
+    { id: "remolino", titulo: "REMOLINO", artista: "NEW WINE", precio: 19.99, ytId: "WLNGleSSh2M", gumroadUrl: "https://beltsasar.gumroad.com/l/remoLord?wanted=true", acorde: "Sol Menor", tempo: "172 bpm", cantidadTracks: 14, pesoTrack: "56 Mb", distribucion: "Empaquetado .ZIP", tags: ["worship", "jubilo", "brass", "live"], stems: ["Brass", "Bass", "Click Track", "Drums Live", "EG 1 y 2", "EG AC", "Fx", "Guia", "Keys", "Lead", "Loop", "Pluck", "Strings"] },
+    { id: "salmos-99", titulo: "SALMOS 99", artista: "NEW WINE", precio: 19.99, ytId: "EiE_1wigCRU", gumroadUrl: "https://beltsasar.gumroad.com/l/slm99Lord?wanted=true", acorde: "La Menor", tempo: "135 bpm", cantidadTracks: 11, pesoTrack: "52 Mb", tags: ["worship", "brass", "live", "piano"], stems: ["Brass", "Bass", "Click Track", "Drums Live", "EG 1 y 2", "Fx", "Guia", "Lead", "Percusion", "Piano"] },
+    { id: "intro-tu-hijo-soy", titulo: "INTRO TU HIJO SOY", artista: "BARAK LIVE / DAVID NOLASCO", precio: 19.99, ytId: "RjpYd6R5msg", ytStart: 89, gumroadUrl: "https://beltsasar.gumroad.com/l/introhijoLord?wanted=true", acorde: "Fa# Menor", tempo: "134 bpm", cantidadTracks: 26, pesoTrack: "162 Mb", distribucion: "Empaquetado .ZIP", tags: ["intro", "worship", "barak", "live"], stems: ["Alto 1 y 2", "Arp 1 y 2", "BGVS 1 y 2", "Choir", "Click Track", "Drums Live", "EG 1, 2 y 3", "Guia", "Keys 1 - 4", "Organ", "Percusion", "Piano", "Synth Bass 1 y 2", "Synth Orq", "Tenor", "Vox Fx 1 y 2"] },
+    { id: "salvador", titulo: "SALVADOR", artista: "LA HORMIGA", precio: 9.99, ytId: "qTNHdnxHd-o", gumroadUrl: "https://beltsasar.gumroad.com/l/hormLord?wanted=true", acorde: "Sol Menor", tempo: "118 bpm", cantidadTracks: 12, pesoTrack: "45 Mb", distribucion: "Empaquetado .ZIP", tags: ["rock", "worship", "organ", "live"], stems: ["Bass", "Brass", "Click Track", "Drums Live", "EG 1 y 2", "Guia", "Keys", "Organ", "Fx", "Voz", "Loop"] },
+    { id: "lo-que-dios-dice", titulo: "LO QUE DIOS DICE QUE SOY", artista: "ADORACIÓN IGLESIA CRISTIANA", precio: 19.99, ytId: "w_LFCopstUk", gumroadUrl: "https://beltsasar.gumroad.com/l/lqddqsLord?wanted=true", acorde: "Fa# Mayor", tempo: "105 bpm", cantidadTracks: 12, pesoTrack: "61 Mb", distribucion: "Empaquetado .ZIP", tags: ["worship", "soft", "strings", "piano"], stems: ["Arp", "Bass", "Brass", "Click Track", "Drums Live", "EG 1 y 2", "Guia", "Loop", "Piano", "Strings", "Voz"] },
+    { id: "con-poder", titulo: "CON PODER", artista: "BARAK LIVE / DAVID NOLASCO", precio: 10, ytId: "vVI-M39MZdw", ytStart: 35, gumroadUrl: "https://beltsasar.gumroad.com/l/conpoderLord?wanted=true", acorde: "Si Menor", tempo: "75 bpm", cantidadTracks: 18, pesoTrack: "51 Mb", distribucion: "Empaquetado .ZIP", tags: ["worship", "live", "rock", "pads"], stems: ["Bass", "Arp", "BGVS", "Click Track", "Drums Live", "EG 1 - 6", "Guia", "Fx", "Keys", "Piano", "Pad", "Voz"] },
+    { id: "hosanna-remix", titulo: "HOSANNA REMIX", artista: "MARCOS BARRIENTOS", precio: 9.99, ytId: "1HMqnlELzD0", gumroadUrl: "https://beltsasar.gumroad.com/l/hosannaLord?wanted=true", acorde: "Si Menor", tempo: "146 bpm", cantidadTracks: 21, pesoTrack: "98 Mb", distribucion: "Empaquetado .ZIP", tags: ["remix", "worship", "edm", "live"], stems: ["Bass", "Arp", "BGVS", "Click Track", "Drums Live", "EG 1 - 4", "Guia", "Fx", "Keys", "Loop", "Piano", "Pad 1 y 2", "Strings", "Synth 1 - 4", "Voz"] },
+    { id: "fiesta-en-el-desierto-remix", titulo: "FIESTA EN EL DESIERTO REMIX", artista: "MONTE SANTO / WORSHIP BAND LIVE / ARTURY PEPPER", precio: 13.99, ytId: "1HMqnlELzD0", gumroadUrl: "https://beltsasar.gumroad.com/l/fdLord?wanted=true", acorde: "Do# Menor", tempo: "125–140 bpm", cantidadTracks: 27, pesoTrack: "76 Mb", distribucion: "Empaquetado .ZIP", tags: ["remix", "worship", "monte santo", "live"], stems: ["Bass", "Bells", "Arp", "BGVS", "Click Track", "Choir 1 y 2", "Drums Live", "EG 1 - 5", "Guia", "Fx", "Keys 1 - 3", "Loop", "Piano", "Pad 1 y 2", "Strings", "Synth 1 - 4", "Voz"] },
+    { id: "intro-yeshua-hamashiaj", titulo: "INTRO + YESHUA HAMASHIAJ", artista: "MONTE SANTO EN CONCIERTO", precio: 19.99, ytId: "P6edqId1N48", gumroadUrl: "https://beltsasar.gumroad.com/l/yehamLord?wanted=true", acorde: "Mib Menor", tempo: "140 bpm", cantidadTracks: 15, pesoTrack: "83 Mb", distribucion: "Empaquetado .ZIP", sampleRate: "44.1 kHz", formatoAudio: "WAV (Linear PCM)", profundidadBits: "24-Bit Stereo", tags: ["intro", "worship", "live", "monte santo"], stems: ["AC", "Bass", "Choir", "Click Track", "Drums Live", "EG 1 - 4", "Guia", "Fx & Loop", "Keys 1 y 2", "Orq", "Piano"] },
+    { id: "medley-eres-fiel-ag", titulo: "MEDLEY ERES FIEL", artista: "AG MUSIC", precio: 35.99, ytId: "pp6rCjdzHGQ", gumroadUrl: "https://beltsasar.gumroad.com/l/MedleyAGMusicLord?wanted=true", acorde: "Variable", tempo: "Variable", cantidadTracks: 18, pesoTrack: "193 Mb", distribucion: "Empaquetado .ZIP", tags: ["medley", "worship", "guitarras", "mix"], stems: ["Arp", "Bass", "Bells", "Click Track", "Drums Live", "EG 1 y 2", "Guia", "Fx & Loop", "Keys 1 y 2", "Lead", "Pad", "Piano", "Synth Bass", "Vox", "Voz Guia"] },
+    { id: "mix-naciones", titulo: "MIX NACIONES", artista: "NEW WINE", precio: 19.99, ytId: "CdCnEwtuaTU", gumroadUrl: "https://beltsasar.gumroad.com/l/nacionmixLord?wanted=true", acorde: "Variable", tempo: "Variable", cantidadTracks: 15, pesoTrack: "160 Mb", distribucion: "Empaquetado .ZIP", tags: ["medley", "worship", "brass", "live"], stems: ["Arp", "Acordeon", "Bass", "Brass", "Click Track", "Drums Live", "EG 1 y 2", "EG AC", "Guia", "Pad", "Percussion", "Piano", "Sax", "Violin"] },
+    { id: "con-toda-mi-alma-comando-gaf", titulo: "CON TODA MI ALMA / CON TODA MI VIDA", artista: "COMANDO GAF", precio: 19.99, ytId: "a5aqL5txrP4", ytStart: 3, gumroadUrl: "https://beltsasar.gumroad.com/l/ccf1Lord?wanted=true", acorde: "Re menor", tempo: "155 bpm", cantidadTracks: 11, pesoTrack: "57 Mb", distribucion: "Empaquetado .ZIP", tags: ["comando gaf", "worship", "horns", "synth"], stems: ["Arp", "Bass", "Horns", "Click Track", "Drums Live", "EG 1", "EG 2", "Guia", "Fx & Drop", "Synth", "Synth bass"] },
+    { id: "bye-bye-pa-que-preguntan", titulo: "BYE BYE / PA´QUE PREGUNTAN", artista: "ALEX ZURDO", precio: 15.99, ytId: "aWsW8rvsOaA", ytStart: 90, gumroadUrl: "https://beltsasar.gumroad.com/l/AZ1?wanted=true", acorde: "Variable", tempo: "95–97 bpm", cantidadTracks: 13, pesoTrack: "74 Mb", distribucion: "Empaquetado .ZIP", tags: ["alex zurdo", "urbano", "rap", "synth"], stems: ["Click Track", "Drums Live", "EG Sample", "Loop", "Guia", "Pad", "Pluck", "Piano", "Rodhes", "Synth Bass", "Synth Fx", "Synth Sample", "Voz Guia"] },
+    { id: "intro-25-anos-miel-san-marcos", titulo: "INTRO 25 AÑOS", artista: "MIEL SAN MARCOS", precio: 19.99, ytId: "a5tzxtVzXYU", gumroadUrl: "https://beltsasar.gumroad.com/l/intromsm25Lord?wanted=true", acorde: "Re", tempo: "75 bpm", cantidadTracks: 14, pesoTrack: "31 Mb", distribucion: "Empaquetado .ZIP", tags: ["intro", "worship", "miel san marcos"], stems: ["Acustic", "Arp", "Click Track", "Drums Live", "EG Amb", "EG", "Fx", "Guia", "Loop", "Pads", "Percusion", "Piano", "Strings", "Synth Bass"] },
+    { id: "no-cuenten-conmigo", titulo: "NO CUENTEN CONMIGO", artista: "ALEX ZURDO", precio: 14.99, ytId: "XVpZmQAFfzc", gumroadUrl: "https://beltsasar.gumroad.com/l/az2Lord?wanted=true", acorde: "F#m", tempo: "120 bpm", cantidadTracks: 18, pesoTrack: "66 Mb", distribucion: "Empaquetado .ZIP", tags: ["alex zurdo", "urbano", "worship"], stems: ["Acordeon", "Bass", "Brass", "Click Track", "Drums Live", "EG 1 y 2", "Fx", "Guia", "Guitar Sample", "Loop", "Orchesta", "Percusion", "Piano", "Pad", "Percussion", "Pluck", "Synth Sample", "Synth Bass"] },
+    { id: "intro-vida-tu-me-das", titulo: "INTRO VIDA TÚ ME DAS", artista: "LAKEWOOD", precio: 25.99, ytId: "MMuJmgU8GlQ", ytStart: 3, gumroadUrl: "https://beltsasar.gumroad.com/l/introlakewoodLord?wanted=true", acorde: "Bm", tempo: "Variable", cantidadTracks: 19, pesoTrack: "100 Mb", distribucion: "Empaquetado .ZIP", tags: ["intro", "worship", "lakewood"], stems: ["Arp", "Bass", "Click Track", "Drums Live", "EG 1, 2 y Live", "Fx", "Guia", "Keys 1, 2 y 3", "Lead", "Piano", "Pad", "Pluck", "Synth Bass", "Vox y Vox Sample"] },
+    { id: "intro-lo-mio-no-pasa", titulo: "INTRO LO MÍO NO PASA", artista: "ALEX ZURDO", precio: 25.99, ytId: "MMuJmgU8GlQ", ytStart: 3, gumroadUrl: "https://beltsasar.gumroad.com/l/AZ3Lord?wanted=true", acorde: "C#", tempo: "110 bpm", cantidadTracks: 21, pesoTrack: "87 Mb", distribucion: "Empaquetado .ZIP", tags: ["intro", "alex zurdo", "urbano"], stems: ["Acordeon", "Bass Live", "Bells", "Click Track", "Drums Live", "Fx", "Guia", "Guitar Sample", "Hit Orq", "Keys 1 y 2", "Lead 1 y 2", "Piano Live", "Organ", "Pad", "Percussion", "Pluck", "Synth Bass", "Synth", "Vox Sample"] },
+    { id: "cantos-de-liberacion-en-unidad", titulo: "CANTOS DE LIBERACIÓN & EN UNIDAD", artista: "GENESIS CAMPOS", precio: 25.99, ytId: "1h9VhrDV7FQ", gumroadUrl: "https://beltsasar.gumroad.com/l/gencLord?wanted=true", acorde: "Cm", tempo: "155 bpm", cantidadTracks: 15, pesoTrack: "104 Mb", distribucion: "Empaquetado .ZIP", tags: ["worship", "genesis campos", "medley"], stems: ["Acordeon", "AC", "Bass Live", "Bells", "Click Track", "Drums Live", "EG 1 y 2", "Fx", "Guia", "Piano Live", "Pad", "Percussion", "Seccion Metales", "Seccion Violines", "Sinfonia"] },
+    { id: "medley-danza-de-amor", titulo: "MEDLEY DANZA DE AMOR", artista: "CCINT", precio: 9.99, ytId: "oKJWZWpypQw", gumroadUrl: "https://beltsasar.gumroad.com/l/hqgox?wanted=true", acorde: "Variable", tempo: "Variable", cantidadTracks: 13, pesoTrack: "166 Mb", distribucion: "Empaquetado .ZIP", tags: ["medley", "worship", "ccint"], stems: ["Bass Live", "Click Track", "Drums Live", "EG", "Organ", "Guia", "Piano", "Percussion", "Seccion Metales", "Seccion Violines"] },
+    { id: "mix-genesis-campos", titulo: "MIX GENESIS CAMPOS", artista: "GENESIS CAMPOS", precio: 19.99, ytId: "p9QhzFX-FgE", gumroadUrl: "https://beltsasar.gumroad.com/l/mixgc4Lord?wanted=true", acorde: "Variable", tempo: "Variable", cantidadTracks: 15, pesoTrack: "204 Mb", distribucion: "Empaquetado .ZIP", tags: ["medley", "genesis campos", "worship"], stems: ["Acordeon", "AC", "Bass Live", "Click Track", "Drums Live", "EG 1 y 2", "Guia", "Keys", "Mandolin", "Piano Live", "Pad", "Percussion", "Seccion Metales", "Seccion Violines"] }
 ];
 
 function obtenerPrecioItem(item) {
@@ -56,14 +55,12 @@ function obtenerPrecioItem(item) {
     return 0;
 }
 
-function calcularTotalesCarrito(carrito, codigoDescuento) {
+function calcularTotalesCarrito(carrito, aplicarDescuento = false) {
     const subtotal = carrito.reduce((sum, item) => sum + obtenerPrecioItem(item), 0);
-    const codigoNormalizado = codigoDescuento.trim().toUpperCase();
-    const porcentajeDescuento = CODIGOS_DESCUENTO[codigoNormalizado] || 0;
-    const codigoValido = porcentajeDescuento > 0;
-    const descuento = codigoValido ? subtotal * (porcentajeDescuento / 100) : 0;
+    const porcentajeDescuento = aplicarDescuento ? 20 : 0;
+    const descuento = subtotal * (porcentajeDescuento / 100);
     const total = subtotal - descuento;
-    return { subtotal, descuento, total, codigoValido, porcentajeDescuento };
+    return { subtotal, descuento, total, codigoValido: aplicarDescuento, porcentajeDescuento };
 }
 
 function formatearPrecioUSD(monto) {
@@ -143,9 +140,9 @@ function inicializarCarritoHeader() {
     });
 }
 
-function renderizarTarjetasTienda(lista) {
-    const contenedorGrid = document.getElementById("catalog-grid-container");
-    const mensajeNoResultados = document.getElementById("no-results-message");
+function renderizarTarjetasTienda(lista, idContenedor = "catalog-grid-container") {
+    const contenedorGrid = document.getElementById(idContenedor);
+    const mensajeNoResultados = idContenedor === "catalog-grid-container" ? document.getElementById("no-results-message") : null;
     if (!contenedorGrid) return;
 
     contenedorGrid.innerHTML = "";
@@ -284,18 +281,31 @@ function lanzarNotificacionPremium(mensaje) {
 
     const toast = document.createElement("div");
     toast.id = "onlylord-toast-alert";
-    toast.style.cssText = "position:fixed;bottom:2em;right:2em;background:var(--onlylord-bg-estudio);border:solid 1px var(--onlylord-accent);padding:1.2em 2em;border-radius:4px;box-shadow:0 10px 30px rgba(0,242,254,0.15);color:#fff;font-family:Raleway,Helvetica,sans-serif;font-size:0.9em;font-weight:700;letter-spacing:0.05em;z-index:99999;opacity:0;transform:translateY(10px);transition:all 0.3s cubic-bezier(0.16,1,0.3,1);";
-    toast.innerHTML = `<span class="icon solid fa-check-circle" style="color:var(--onlylord-accent); margin-right:0.8em;"></span> ${mensaje.toUpperCase()}`;
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
+    toast.style.cssText = "position:fixed;top:5.5em;right:1.5em;max-width:min(24em,calc(100vw - 2em));background:var(--onlylord-bg-estudio);border:solid 1px var(--onlylord-accent);padding:1em 1.25em;border-radius:6px;box-shadow:0 10px 30px rgba(0,242,254,0.2);color:#fff;font-family:Raleway,Helvetica,sans-serif;font-size:0.9em;font-weight:700;z-index:99999;opacity:0;transform:translateY(-8px);transition:all 0.25s ease;";
+    const texto = document.createElement("span");
+    texto.textContent = mensaje;
+    const enlace = document.createElement("a");
+    enlace.href = "carrito.html";
+    enlace.textContent = "Ver carrito";
+    enlace.style.cssText = "display:inline-block;margin-left:0.9em;color:var(--onlylord-accent);text-decoration:underline;white-space:nowrap;";
+    toast.append(texto, enlace);
     document.body.appendChild(toast);
 
-    setTimeout(() => { toast.style.opacity = "1"; toast.style.transform = "translateY(0)"; }, 50);
+    const carritoHeader = document.querySelector(".header-cart-link");
+    if (carritoHeader) {
+        const posicion = carritoHeader.getBoundingClientRect();
+        toast.style.top = `${Math.max(12, posicion.bottom + 8)}px`;
+        toast.style.right = `${Math.max(12, window.innerWidth - posicion.right)}px`;
+    }
+    setTimeout(() => { toast.style.opacity = "1"; toast.style.transform = "translateY(0)"; }, 30);
     setTimeout(() => {
         toast.style.opacity = "0";
-        toast.style.transform = "translateY(10px)";
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
+        toast.style.transform = "translateY(-8px)";
+        setTimeout(() => toast.remove(), 250);
+    }, 5000);
 }
-
 function configurarAcordeonesSoporte() {
     const botonesAcordeon = document.querySelectorAll(".accordion-toggle");
 
@@ -326,14 +336,17 @@ function configurarAcordeonesSoporte() {
 function obtenerCarrito() {
     try {
         const carrito = JSON.parse(localStorage.getItem("onlylord_cart") || "[]");
-        return Array.isArray(carrito)
-            ? carrito.filter(item => item && typeof item.id === "string")
-            : [];
+        if (!Array.isArray(carrito)) return [];
+        const productosDisponibles = new Set(LIBRERIA_MULTITRACKS.map(track => track.id));
+        const carritoActualizado = carrito.filter(item => item && typeof item.id === "string" && productosDisponibles.has(item.id));
+        if (carritoActualizado.length !== carrito.length) {
+            localStorage.setItem("onlylord_cart", JSON.stringify(carritoActualizado));
+        }
+        return carritoActualizado;
     } catch (error) {
         return [];
     }
 }
-
 function actualizarContadorMenu() {
     const carrito = obtenerCarrito();
     document.querySelectorAll(".cart-counter-nav").forEach(el => { el.innerText = carrito.length; });
@@ -370,144 +383,116 @@ function eliminarDelCarrito(id) {
     lanzarNotificacionPremium("Elemento removido.");
 }
 
+function obtenerOpcionPago() {
+    const opcion = document.querySelector('input[name="payment-option"]:checked');
+    return opcion ? opcion.value : "gumroad";
+}
+
 function obtenerMetodoPagoSeleccionado() {
     const selector = document.getElementById("cart-payment-method");
     if (!selector) return "";
-    return ["airtm", "takenos", "otro"].includes(selector.value) ? selector.value : "";
+    return ["airtm", "takenos", "usdt", "bolivia"].includes(selector.value) ? selector.value : "";
 }
 
 function obtenerNombreMetodoPago(metodo) {
-    if (metodo === "airtm") return "Airtm";
-    if (metodo === "takenos") return "Takenos";
-    if (metodo === "otro") return "Otro / por acordar";
+    if (metodo === "airtm") return "AIRTM";
+    if (metodo === "takenos") return "TAKENOS";
+    if (metodo === "usdt") return "USDT (BSC BEP20)";
+    if (metodo === "bolivia") return "QR Bolivia · Sin Comisiones";
     return "Por coordinar";
 }
 
 function construirResumenCarritoWhatsApp(metodo) {
     const carrito = obtenerCarrito();
     if (carrito.length === 0) return "";
-
-    const inputDescuento = document.getElementById("cart-discount-code");
-    const codigoDescuento = inputDescuento ? inputDescuento.value.trim() : "";
-    const { subtotal, descuento, total, codigoValido } = calcularTotalesCarrito(carrito, codigoDescuento);
-    const lineasProductos = carrito.map((item, indice) => {
+    const totales = calcularTotalesCarrito(carrito, true);
+    const lineasProductos = carrito.map(item => {
         const track = LIBRERIA_MULTITRACKS.find(t => t.id === item.id);
         return `  - *${track ? track.titulo : "Producto no disponible"}* — ${formatearPrecioCheckout(obtenerPrecioItem(item))}`;
     });
-
-    const leerCampo = id => {
-        const campo = document.getElementById(id);
-        return campo ? campo.value.trim() : "";
-    };
-    const nombre = [leerCampo("cart-client-name"), leerCampo("cart-client-lastname")].filter(Boolean).join(" ");
-    const pais = leerCampo("cart-client-country");
-    const correo = leerCampo("cart-client-email");
-    const metodoSeleccionado = metodo ? obtenerNombreMetodoPago(metodo) : "";
-    const lineasPrecios = [`  Subtotal: ${formatearPrecioCheckout(subtotal)}`];
-    if (codigoValido) lineasPrecios.push(`  Descuento: -${formatearPrecioCheckout(descuento)}`);
-    lineasPrecios.push(`  Total: ${formatearPrecioCheckout(total)}`);
-
-    return `Hola, *ONLY LORD*.\n` +
-        `Solicito confirmación de disponibilidad para el siguiente pedido:\n\n` +
-        `*📋 DATOS DEL CLIENTE*\n` +
-        `• Nombre: ${nombre}\n` +
-        `• País: ${pais}\n` +
-        `• Correo electrónico: ${correo}\n` +
-        `• Método de pago: ${metodoSeleccionado}\n\n` +
-        `*🛒 RESUMEN DE LA COMPRA*\n` +
-        `• Producto:\n${lineasProductos.join("\n")}\n` +
-        `• Precio:\n${lineasPrecios.join("\n")}\n\n` +
-        `*💳 COMPROBANTE DE PAGO*\n` +
-        `[Adjuntar comprobante de pago aquí]\n\n` +
-        `Quedo a la espera de la confirmación del envio de la compra\n` +
-        `Gracias.`;
+    return `Hola, *ONLY LORD*.\nSolicito confirmación de disponibilidad para el siguiente pedido:\n\n` +
+        `*📋 PAGO*\n• Método de pago: ${obtenerNombreMetodoPago(metodo)}\n\n` +
+        `*🛒 RESUMEN DE LA COMPRA*\n• Producto:\n${lineasProductos.join("\n")}\n` +
+        `• Precio:\n  Subtotal: ${formatearPrecioCheckout(totales.subtotal)}\n  Descuento (20%): -${formatearPrecioCheckout(totales.descuento)}\n  Total con descuento: ${formatearPrecioCheckout(totales.total)}\n\n` +
+        `*💳 COMPROBANTE DE PAGO*\nManda tu comprobante de pago al WhatsApp.\n\nGracias.`;
 }
 
 function actualizarResumenSolicitudManual() {
+    const opcion = obtenerOpcionPago();
     const metodo = obtenerMetodoPagoSeleccionado();
     const carrito = obtenerCarrito();
-    const panelQr = document.getElementById("payment-method-panel");
-    const qrAirtm = document.getElementById("payment-qr-airtm");
-    const qrTakenos = document.getElementById("payment-qr-takenos");
-    const identificadorAirtm = document.getElementById("payment-recipient-airtm");
-    const identificadorAirtmValor = document.getElementById("payment-recipient-airtm-value");
-    const identificadorTakenos = document.getElementById("payment-recipient-takenos");
-    const identificadorTakenosValor = document.getElementById("payment-recipient-takenos-value");
+    const gumroadPanel = document.getElementById("gumroad-payment-panel");
+    const otherPanel = document.getElementById("other-payment-panel");
+    if (gumroadPanel) gumroadPanel.style.display = opcion === "gumroad" ? "block" : "none";
+    if (otherPanel) otherPanel.style.display = opcion === "other" ? "block" : "none";
+
+    const qrIds = ["airtm", "takenos", "usdt", "bolivia"];
+    qrIds.forEach(id => {
+        const qr = document.getElementById(`payment-qr-${id}`);
+        if (qr) qr.style.display = opcion === "other" && metodo === id ? "block" : "none";
+    });
+
+    const boliviaLink = document.getElementById("bolivia-zero-fee");
+    if (boliviaLink) boliviaLink.style.display = opcion === "other" && (navigator.language || "").toLowerCase().includes("bo") ? "block" : "none";
+
     const resumen = document.getElementById("manual-payment-summary");
-    const botonFinalizar = document.getElementById("btn-finalizar-compra");
-    const tieneProductos = carrito.length > 0;
-    const metodoConQr = metodo === "airtm" || metodo === "takenos";
-    const handleAirtm = IDENTIFICADORES_PUBLICOS_PAGO.airtm.trim();
-    const handleTakenos = IDENTIFICADORES_PUBLICOS_PAGO.takenos.trim();
+    if (resumen) resumen.style.display = opcion === "other" && carrito.length > 0 ? "block" : "none";
 
-    if (panelQr) panelQr.style.display = metodoConQr ? "block" : "none";
-    if (qrAirtm) qrAirtm.style.display = metodo === "airtm" ? "block" : "none";
-    if (qrTakenos) qrTakenos.style.display = metodo === "takenos" ? "block" : "none";
-    if (identificadorAirtmValor && handleAirtm) identificadorAirtmValor.textContent = handleAirtm;
-    if (identificadorAirtm) identificadorAirtm.hidden = !handleAirtm;
-    if (identificadorTakenosValor && handleTakenos) identificadorTakenosValor.textContent = handleTakenos;
-    if (identificadorTakenos) identificadorTakenos.hidden = !handleTakenos;
-    if (resumen) resumen.style.display = tieneProductos ? "block" : "none";
-    if (botonFinalizar) {
-        botonFinalizar.disabled = !tieneProductos;
-        botonFinalizar.textContent = "Finalizar compra";
-    }
-
-    if (!tieneProductos) {
-        return;
-    }
-
-    const inputDescuento = document.getElementById("cart-discount-code");
-    const codigoDescuento = inputDescuento ? inputDescuento.value.trim() : "";
-    const totales = calcularTotalesCarrito(carrito, codigoDescuento);
-    const listaProductos = document.getElementById("manual-summary-products");
-    const metodoTexto = document.getElementById("manual-summary-method");
-    const subtotalTexto = document.getElementById("manual-summary-subtotal");
-    const descuentoFila = document.getElementById("manual-summary-discount-row");
-    const descuentoEtiqueta = document.getElementById("manual-summary-discount-label");
-    const descuentoTexto = document.getElementById("manual-summary-discount");
-    const totalTexto = document.getElementById("manual-summary-total");
-
-    if (listaProductos) {
-        listaProductos.replaceChildren();
+    const totales = calcularTotalesCarrito(carrito, true);
+    const lista = document.getElementById("manual-summary-products");
+    if (lista) {
+        lista.replaceChildren();
         carrito.forEach(item => {
             const track = LIBRERIA_MULTITRACKS.find(t => t.id === item.id);
-            const linea = document.createElement("li");
-            linea.textContent = `${track ? track.titulo : "Producto no disponible"} — ${formatearPrecioCheckout(obtenerPrecioItem(item))}`;
-            listaProductos.appendChild(linea);
+            const li = document.createElement("li");
+            li.textContent = `${track ? track.titulo : "Producto no disponible"} — ${formatearPrecioCheckout(obtenerPrecioItem(item))}`;
+            lista.appendChild(li);
         });
     }
-    if (metodoTexto) metodoTexto.textContent = obtenerNombreMetodoPago(metodo);
-    if (subtotalTexto) subtotalTexto.textContent = formatearPrecioCheckout(totales.subtotal);
-    if (descuentoFila) {
-        descuentoFila.style.display = codigoDescuento && totales.codigoValido ? "flex" : "none";
-    }
-    if (descuentoEtiqueta) descuentoEtiqueta.textContent = `Descuento ${codigoDescuento.toUpperCase()} (${totales.porcentajeDescuento}%)`;
-    if (descuentoTexto) descuentoTexto.textContent = `-${formatearPrecioCheckout(totales.descuento)}`;
-    if (totalTexto) totalTexto.textContent = formatearPrecioCheckout(totales.total);
-
+    const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+    setText("manual-summary-method", obtenerNombreMetodoPago(metodo));
+    setText("manual-summary-subtotal", formatearPrecioCheckout(totales.subtotal));
+    setText("manual-summary-discount", `-${formatearPrecioCheckout(totales.descuento)} (20%)`);
+    setText("manual-summary-total", formatearPrecioCheckout(totales.total));
 }
 
+function renderizarOpcionesPagoGumroad(carrito) {
+    const contenedor = document.getElementById("cart-gumroad-payments");
+    if (!contenedor) return;
+    contenedor.replaceChildren();
+
+    carrito.forEach(item => {
+        const track = LIBRERIA_MULTITRACKS.find(producto => producto.id === item.id);
+        if (!track || !track.gumroadUrl) return;
+
+        const fila = document.createElement("div");
+        fila.className = "cart-gumroad-item";
+        const nombre = document.createElement("span");
+        nombre.textContent = `${track.titulo} — ${formatearPrecioCheckout(track.precio)}`;
+        const enlace = document.createElement("a");
+        enlace.className = "button small";
+        enlace.href = track.gumroadUrl;
+        enlace.target = "_blank";
+        enlace.rel = "noopener noreferrer";
+        enlace.textContent = "COMPRAR MULTITRACK";
+        enlace.setAttribute("aria-label", `Abrir pago de ${track.titulo} en Gumroad`);
+        fila.append(nombre, enlace);
+        contenedor.appendChild(fila);
+    });
+}
 function renderizarPaginaCarrito() {
     const contenedorLista = document.getElementById("lista-carrito-productos");
-    const contenedorCheckout = document.getElementById("checkout-area-box");
-    const resumenTotales = document.getElementById("cart-totals-summary");
     const carrito = obtenerCarrito();
-    const inputDescuento = document.getElementById("cart-discount-code");
+    renderizarOpcionesPagoGumroad(carrito);
 
     if (!contenedorLista) return;
     contenedorLista.innerHTML = "";
 
     if (carrito.length === 0) {
         contenedorLista.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 4em 0; color:rgba(255,255,255,0.3);">Tu carrito de compras se encuentra vacío.</td></tr>`;
-        if (contenedorCheckout) contenedorCheckout.style.display = "none";
-        if (resumenTotales) resumenTotales.style.display = "none";
         actualizarResumenSolicitudManual();
         return;
     }
-
-    if (contenedorCheckout) contenedorCheckout.style.display = "block";
-    if (resumenTotales) resumenTotales.style.display = "block";
 
     carrito.forEach((item, index) => {
         const track = LIBRERIA_MULTITRACKS.find(t => t.id === item.id);
@@ -553,7 +538,12 @@ function renderizarPaginaCarrito() {
         contenedorLista.appendChild(tr);
     });
 
-    actualizarResumenTotalesCarrito();
+    document.querySelectorAll('input[name="payment-option"]').forEach(radio => {
+        if (!radio.dataset.configurado) {
+            radio.addEventListener("change", actualizarResumenSolicitudManual);
+            radio.dataset.configurado = "true";
+        }
+    });
 
     const formCheckout = document.getElementById("form-checkout-pass");
     if (formCheckout && !formCheckout.dataset.checkoutConfigurado) {
@@ -569,52 +559,24 @@ function renderizarPaginaCarrito() {
         selectorMetodo.addEventListener("change", actualizarResumenSolicitudManual);
         selectorMetodo.dataset.configurado = "true";
     }
+    const boliviaLink = document.getElementById("bolivia-zero-fee");
+    if (boliviaLink && !boliviaLink.dataset.configurado) {
+        boliviaLink.addEventListener("click", () => {
+            const selector = document.getElementById("cart-payment-method");
+            if (selector) selector.value = "bolivia";
+            actualizarResumenSolicitudManual();
+        });
+        boliviaLink.dataset.configurado = "true";
+    }
     actualizarResumenSolicitudManual();
 }
 
 function actualizarResumenTotalesCarrito() {
-    const carrito = obtenerCarrito();
-    const inputDescuento = document.getElementById("cart-discount-code");
-    const elSubtotal = document.getElementById("cart-subtotal");
-    const elDescuento = document.getElementById("cart-discount-row");
-    const elDescuentoMonto = document.getElementById("cart-discount-amount");
-    const elDescuentoLabel = document.getElementById("cart-discount-label");
-    const elTotal = document.getElementById("cart-total-final");
-    const elEstadoCodigo = document.getElementById("cart-discount-status");
-    const codigo = inputDescuento ? inputDescuento.value : "";
-    const { subtotal, descuento, total, codigoValido, porcentajeDescuento } = calcularTotalesCarrito(carrito, codigo);
-
-    if (elSubtotal) elSubtotal.textContent = formatearPrecioCheckout(subtotal);
-    if (elTotal) elTotal.textContent = formatearPrecioCheckout(total);
-
     document.querySelectorAll(".cart-item-price").forEach((elemento, indice) => {
+        const carrito = obtenerCarrito();
         if (carrito[indice]) elemento.textContent = formatearPrecioCheckout(obtenerPrecioItem(carrito[indice]));
     });
-
-    if (elDescuento && elDescuentoMonto) {
-        if (codigo.trim() && codigoValido) {
-            elDescuento.style.display = "flex";
-            if (elDescuentoLabel) elDescuentoLabel.textContent = `${porcentajeDescuento}%`;
-            elDescuentoMonto.textContent = `- ${formatearPrecioCheckout(descuento)} (${porcentajeDescuento}%)`;
-            if (elEstadoCodigo) {
-                elEstadoCodigo.textContent = "Código aplicado correctamente";
-                elEstadoCodigo.style.color = "var(--onlylord-accent)";
-            }
-        } else {
-            elDescuento.style.display = "none";
-            if (elEstadoCodigo) {
-                if (codigo.trim()) {
-                    elEstadoCodigo.textContent = "Código no válido";
-                    elEstadoCodigo.style.color = "#ab3d26";
-                } else {
-                    elEstadoCodigo.textContent = "";
-                }
-            }
-        }
-    }
-
-    actualizarResumenSolicitudManual();
-}
+    actualizarResumenSolicitudManual();}
 
 function despacharCarritoAWhatsApp() {
     const formulario = document.getElementById("form-checkout-pass");
@@ -700,43 +662,59 @@ function cargarDatosEnElMoldeDetalle() {
     const datosJSON = sessionStorage.getItem("multitrack_detalle_actual");
     if (!datosJSON) { window.location.href = "multitracks.html"; return; }
 
-    const track = JSON.parse(datosJSON);
+    let productoGuardado;
+    try {
+        productoGuardado = JSON.parse(datosJSON);
+    } catch (error) {
+        window.location.href = "multitracks.html";
+        return;
+    }
+    const track = LIBRERIA_MULTITRACKS.find(producto => producto.id === productoGuardado.id);
+    if (!track) { window.location.href = "multitracks.html"; return; }
     document.getElementById("detail-track-title").innerText = track.titulo;
     document.getElementById("detail-track-artist").innerText = track.artista;
 
     const iframeVideo = document.getElementById("detail-video-iframe");
     if (iframeVideo) {
-        iframeVideo.src = `https://www.youtube.com/embed/${track.ytId}?rel=0&autoplay=0`;
+        const inicio = track.ytStart ? `&start=${track.ytStart}` : "";
+        iframeVideo.src = `https://www.youtube.com/embed/${track.ytId}?rel=0&autoplay=0${inicio}`;
     }
 
     const contenedorStems = document.getElementById("detail-stems-container");
     if (contenedorStems) {
-        contenedorStems.innerHTML = "";
+        contenedorStems.replaceChildren();
         track.stems.forEach(stem => {
             const div = document.createElement("div");
             div.className = "stem-item";
-            div.innerHTML = `<span>${stem}</span>`;
+            div.textContent = stem;
             contenedorStems.appendChild(div);
         });
     }
 
     const elPrecio = document.getElementById("detail-track-price");
-    if (elPrecio && track.precio != null) {
-        elPrecio.innerHTML = `<strong style="color:var(--onlylord-accent); font-size:1.4em;">${formatearPrecioUSD(track.precio)}</strong>`;
+    if (elPrecio) {
+        const precio = document.createElement("strong");
+        precio.textContent = formatearPrecioUSD(track.precio);
+        elPrecio.replaceChildren(precio);
     }
 
     const setSpec = (id, value) => {
         const el = document.getElementById(id);
-        if (el && value) el.textContent = value;
+        if (el) el.textContent = value || "—";
     };
     setSpec("detail-spec-acorde", track.acorde);
     setSpec("detail-spec-tempo", track.tempo);
-    setSpec("detail-spec-tracks-count", track.cantidadTracks ? `${track.cantidadTracks} Tracks` : null);
-    setSpec("detail-spec-weight", track.pesoTrack ? `${track.pesoTrack} c/u` : null);
-    setSpec("detail-spec-sample-rate", track.sampleRate || "44.1 kHz");
+    setSpec("detail-spec-tracks-count", `${track.cantidadTracks} Tracks`);
+    setSpec("detail-spec-weight", `${track.pesoTrack} c/u`);
+    setSpec("detail-spec-distribution", track.distribucion || "No especificada");
 
     const btnCarrito = document.getElementById("btn-add-to-cart-action");
-    if (btnCarrito) {
-        btnCarrito.setAttribute("onclick", `añadirAlCarritoLocal('${track.id}', '${track.titulo.replace(/'/g, "\\'")}', 'Multitrack Premium', ${track.precio})`);
-    }
+    if (btnCarrito) btnCarrito.addEventListener("click", () => añadirAlCarritoLocal(track.id, track.titulo, "Multitrack Premium", track.precio));
+
+    const recomendados = ["estoy-convencido", "intro-nuestro-dios", "padre-bueno", "medley-celebra-victorioso"]
+        .filter(id => id !== track.id)
+        .map(id => LIBRERIA_MULTITRACKS.find(producto => producto.id === id))
+        .filter(Boolean)
+        .slice(0, 4);
+    if (recomendados.length) renderizarTarjetasTienda(recomendados, "recommendations-grid");
 }

@@ -21,6 +21,9 @@
 				margin-top: 2em;
 			}
 
+			.details-container > div, .details-container > .tech-spec-box { min-width: 0; max-width: 100%; }
+			.video-screen-box { max-width: 100%; }
+
 			/* Contenedor del Reproductor de Video de YouTube (16:9) optimizado */
 			.video-screen-box {
 				position: relative;
@@ -84,7 +87,7 @@
 
 			.stems-grid {
 				display: grid;
-				grid-template-columns: repeat(2, 1fr);
+				grid-template-columns: repeat(3, minmax(0, 1fr));
 				gap: 1em;
 				margin-top: 1.5em;
 			}
@@ -137,8 +140,28 @@
 			/* Adaptabilidad Responsiva */
 			@media screen and (max-width: 980px) {
 				.details-container { grid-template-columns: 1fr; gap: 2em; }
-				.stems-grid { grid-template-columns: 1fr; }
+				.stems-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 			}
+					.recommendations-section { padding-top: 1em; }
+			.recommendations-section > .inner > p { max-width: 52em; }
+			.recommendations-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25em; margin: 1.5em 0; }
+			.recommendations-grid .track-card { min-width: 0; background: var(--onlylord-bg-estudio); border: solid 1px rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; }
+			.recommendations-grid .track-thumbnail-wrapper { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
+			.recommendations-grid .track-thumbnail-wrapper img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+			.recommendations-grid .track-thumbnail-overlay { display: none; }
+			.recommendations-grid .track-card-body { padding: 1em; display: flex; flex-direction: column; gap: 0.8em; }
+			.recommendations-grid .track-card-info h3 { font-size: 0.9em; margin: 0 0 0.35em; line-height: 1.35; }
+			.recommendations-grid .track-card-info .artist { display: block; min-height: 2.5em; font-size: 0.78em; color: var(--onlylord-text-dim); }
+			.recommendations-grid .track-price-tag { color: var(--onlylord-accent); font-weight: 700; font-size: 0.85em; }
+			.recommendations-grid .btn-card-action { display: block; text-align: center; font-size: 0.72em; }
+			.recommendations-more { text-align: center; margin: 1em 0 0; }
+			.details-footer-compact .contact > div h2 { font-size: 0.9em; margin-bottom: 0.8em; }
+			.details-footer-compact .contact > div p, .details-footer-compact .contact > div li { font-size: 0.85em; line-height: 1.45; }
+			.details-footer-compact .contact > div ul { margin-bottom: 0; }
+			.payment-method-note { font-size: 0.78em; text-align: center; margin: 0.5em 0 0; }
+			@media screen and (max-width: 980px) { .recommendations-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+			@media screen and (max-width: 576px) { .stems-grid, .recommendations-grid { grid-template-columns: 1fr; }
+				.stem-item { min-width: 0; overflow-wrap: anywhere; }
 		</style>
 	</head>
 	<body>
@@ -194,7 +217,7 @@
 										<div>
 											<!-- Reproductor de Video con Lazy Loading Técnico -->
 											<div class="video-screen-box">
-												<iframe id="detail-video-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+												<iframe id="detail-video-iframe" title="Video de referencia del multitrack" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 											</div>
 
 											<!-- Desglose de Instrumentos Incluidos -->
@@ -215,11 +238,7 @@
 												<li><span>Tempo:</span> <strong id="detail-spec-tempo">—</strong></li>
 												<li><span>Cantidad de Tracks:</span> <strong id="detail-spec-tracks-count">—</strong></li>
 												<li><span>Peso por Track:</span> <strong id="detail-spec-weight">—</strong></li>
-												<li><span>Tipo de Recurso:</span> <strong>Multitrack</strong></li>
-												<li><span>Formato del Audio:</span> <strong>WAV (Linear PCM)</strong></li>
-												<li><span>Profundidad de Bits:</span> <strong>24-Bit Stereo</strong></li>
-												<li><span>Frecuencia de Muestreo:</span> <strong id="detail-spec-sample-rate">44.1 kHz</strong></li>
-												<li><span>Distribución:</span> <strong>Empaquetado .ZIP</strong></li>
+												<li><span>Distribución:</span> <strong id="detail-spec-distribution">—</strong></li>
 												<li><span>Precio:</span> <span id="detail-track-price"><strong>—</strong></span></li>
 											</ul>
 
@@ -234,8 +253,17 @@
 							</div>
 					</section>
 
+								<section class="wrapper recommendations-section" aria-labelledby="recommendations-title">
+					<div class="inner">
+						<h2 class="major" id="recommendations-title">También podría interesarte</h2>
+						<p>Explora otros multitracks seleccionados del catálogo.</p>
+						<div class="recommendations-grid" id="recommendations-grid"></div>
+						<div class="recommendations-more"><a class="button" href="multitracks.html">Ver más multitracks</a></div>
+					</div>
+				</section>
+
 				<!-- Footer (4 Contactos Simétricos Rectos a la Izquierda y Copyright Centrado) -->
-					<section id="footer">
+					<section id="footer" class="details-footer-compact">
 						<div class="inner">
 							<div class="contact">
 								<div>

@@ -128,7 +128,37 @@
 				margin-bottom: 0;
 			}
 
-			#payment-country-status {
+            .payment-options-section { margin: 1.5em 0 2em; padding: 1.5em; border: solid 1px rgba(0,242,254,.18); border-radius: 6px; background: rgba(0,242,254,.035); }
+            .payment-choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1em; margin: 1em 0; }
+            .payment-choice-card { display: flex !important; align-items: flex-start; gap: .8em; padding: 1em; border: 1px solid rgba(255,255,255,.12); border-radius: 5px; cursor: pointer; margin: 0 !important; }
+            .payment-choice-card:has(input:checked) { border-color: var(--onlylord-accent); background: rgba(0,242,254,.08); }
+            .payment-choice-card input { width: 1.15em !important; height: 1.15em !important; margin: .15em 0 0 !important; }
+            .payment-choice-card span { display: flex; flex-direction: column; }
+            .payment-choice-card small { margin-top: .35em; color: rgba(255,255,255,.65); }
+            .payment-option-panel { margin-top: 1.2em; }
+            .bolivia-payment-highlight { display: block; margin: 1em 0; padding: .75em 1em; text-align: center; border: 1px solid #00f2fe; border-radius: 5px; background: rgba(0,242,254,.1); color: #fff !important; font-weight: 800; }
+            .payment-proof-note { margin: 1.2em 0; padding: .8em 1em; border-left: 3px solid #25D366; background: rgba(37,211,102,.08); }
+
+            .gumroad-payment-options {
+                margin: 1.5em 0 2em;
+                padding: 1.5em;
+                background: rgba(0, 242, 254, 0.035);
+                border: solid 1px rgba(0, 242, 254, 0.18);
+                border-radius: 6px;
+            }
+            .gumroad-payment-options > p { font-size: 0.9em; }
+            .cart-gumroad-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 1em;
+                padding: 0.8em 0;
+                border-top: solid 1px rgba(255,255,255,0.06);
+            }
+            .cart-gumroad-item > span { color: #fff; font-weight: 600; }
+            .cart-gumroad-item .button { flex: 0 0 auto; }
+
+            #payment-country-status {
 				margin: 0.8em 0 0 0;
 				font-size: 0.9em;
 				color: rgba(255, 255, 255, 0.7);
@@ -334,6 +364,7 @@
 			}
 
 			@media screen and (max-width: 736px) {
+				.cart-gumroad-item { align-items: flex-start; flex-direction: column; }
 				#payment-method-panel {
 					padding: 2.4em 1em 1.2em;
 				}
@@ -397,7 +428,7 @@
 								<div class="inner">
 
 									<h3 class="major">Resumen de tu Pedido</h3>
-									<p>A continuación se listan los recursos seleccionados. Los importes son una referencia calculada en este navegador; se confirmará por WhatsApp el total y el método de pago antes de que pagues. No se procesa ningún cobro desde esta página.</p>
+									<p>A continuación se listan los recursos seleccionados. Elige una de las opciones de pago disponibles.</p>
 
 									<!-- Tabla Interactiva controlada por JS -->
 									<div class="table-wrapper">
@@ -417,147 +448,41 @@
 										</table>
 									</div>
 
-									<!-- Resumen de Precios -->
-									<div id="cart-totals-summary" class="cart-totals-box" style="display: none;">
-										<h3 class="major" style="border:none; margin-bottom:1em; padding-bottom:0;">Resumen de Precios</h3>
-										<div class="cart-totals-row">
-											<span>Subtotal</span>
-											<span id="cart-subtotal">$0.00 USD</span>
-										</div>
-										<div class="cart-totals-row" id="cart-discount-row" style="display:none; color:#ab3d26;">
-											<span>Descuento (<span id="cart-discount-label">0%</span>)</span>
-											<span id="cart-discount-amount">-$0.00 USD</span>
-										</div>
-										<div class="cart-totals-row total-final">
-											<span>Total a Pagar</span>
-											<span id="cart-total-final">$0.00 USD</span>
-										</div>
-										<div class="field" style="margin-top:1.5em; margin-bottom:0;">
-											<label for="cart-discount-code">Código de Descuento</label>
-											<input type="text" id="cart-discount-code" placeholder="" oninput="actualizarResumenTotalesCarrito()" style="text-transform:uppercase;" />
-											<p id="cart-discount-status" style="font-size:0.85em; margin:0.5em 0 0 0;"></p>
-										</div>
-									</div>
+									                                    <section class="payment-options-section" aria-labelledby="payment-options-heading">
+                                        <h3 class="major" id="payment-options-heading">Elige tu método de pago</h3>
+                                        <div class="payment-choice-grid">
+                                            <label class="payment-choice-card"><input type="radio" name="payment-option" value="gumroad" checked /><span><strong>Pagar con Tarjeta / PayPal</strong></span></label>
+                                                                                        <label class="payment-choice-card"><input type="radio" name="payment-option" value="other" /><span><strong>Otro método (-20% de Descuento)</strong></span></label>
+                                        </div>
+                                        <div id="gumroad-payment-panel" class="payment-option-panel">
+                                            <div id="cart-gumroad-payments" class="cart-gumroad-payments"></div>
+                                        </div>
+                                        <div id="other-payment-panel" class="payment-option-panel" style="display:none;">
+                                            <div class="field"><label for="cart-payment-method">Método de pago</label><div class="input-icon-wrapper"><select id="cart-payment-method"><option value="" selected disabled>Elige un método de pago</option><option value="airtm">AIRTM</option><option value="takenos">TAKENOS</option><option value="usdt">USDT</option><option value="bolivia">QR Bolivia</option></select><i class="fas fa-credit-card" aria-hidden="true"></i></div></div>
+                                            <a id="bolivia-zero-fee" class="bolivia-payment-highlight" href="#payment-qr-bolivia" style="display:none;">PAGA CON QR sin Comisiones</a>
+                                            <div id="payment-method-panel" aria-live="polite">
+                                                <div id="payment-qr-airtm" class="payment-qr-wrap" style="display:none;"><p class="payment-qr-label">QR de AIRTM</p><p class="payment-recipient-id"><strong>Nombre de usuario AIRTM:</strong> <span id="payment-recipient-airtm-value">Por confirmar</span></p><img class="payment-qr-image" src="assets/images/home/Tutoriales/QRairtm.jpeg" alt="Código QR de AIRTM" /></div>
+                                                <div id="payment-qr-takenos" class="payment-qr-wrap" style="display:none;"><p class="payment-qr-label">QR de TAKENOS</p><p class="payment-recipient-id"><strong>Nombre de usuario TAKENOS:</strong> <span id="payment-recipient-takenos-value">Por confirmar</span></p><img class="payment-qr-image" src="assets/images/home/Tutoriales/QRtakenos.jpeg" alt="Código QR de TAKENOS" /></div>
+                                                <div id="payment-qr-usdt" class="payment-qr-wrap" style="display:none;"><p class="payment-qr-label">USDT · BSC (BEP20)</p><img class="payment-qr-image" src="assets/images/home/Tutoriales/USDT.jpg" alt="Código QR de USDT" /><p><strong>Red:</strong> BSC (BEP20)</p><p><strong>Dirección:</strong><br><code>0xecb0de956966ccf7414673c2702550f2220e6523</code></p></div>
+                                                <div id="payment-qr-bolivia" class="payment-qr-wrap" style="display:none;"><p class="payment-qr-label">QR Bolivia · Sin comisiones</p><img class="payment-qr-image" src="assets/images/home/Tutoriales/QRbolivia.jpeg" alt="QR Bolivia" /></div>
+                                            </div>
+                                            <p class="payment-proof-note"><strong>Manda tu comprobante de pago al WhatsApp</strong></p>
+                                            <form id="form-checkout-pass" novalidate>
+                                                <section id="manual-payment-summary" class="manual-payment-summary" aria-live="polite">
+                                                    <h4>Resumen de tu pedido</h4><p>Método elegido: <strong id="manual-summary-method"></strong></p><ul id="manual-summary-products"></ul>
+                                                    <div class="cart-totals-row"><span>Subtotal</span><strong id="manual-summary-subtotal"></strong></div>
+                                                    <div class="cart-totals-row"><span>Descuento (20%)</span><strong id="manual-summary-discount"></strong></div>
+                                                    <div class="cart-totals-row total-final"><span>Total con descuento</span><strong id="manual-summary-total"></strong></div>
+                                                </section>
+                                                <p id="checkout-whatsapp-status" aria-live="polite"></p>
+                                                <ul class="actions stacked"><li><button type="submit" id="btn-finalizar-compra" class="button primary btn-checkout-finish">Finalizar compra por WhatsApp</button></li></ul>
+                                            </form>
+                                        </div>
+                                    </section>
 
-									<!-- Área del Checkout -->
-									<div id="checkout-area-box" style="display: none;">
-										
-										<div class="checkout-form-box">
-											<h3>Resumen de tu pedido</h3>
-											<p>Al pulsar «Finalizar compra» se abrirá WhatsApp con el formato de pedido, los productos, precios y totales. Los datos personales y el método de pago se incluirán solo si los completas; no necesitas llenar los campos opcionales. Revisa el mensaje y pulsa Enviar en WhatsApp. No compartas datos de tarjeta ni claves de seguridad.</p>
-											
-											<form id="form-checkout-pass" novalidate>
-												<div class="fields">
-													
-													<div class="field half">
-														<label for="cart-client-name">Nombre (opcional)</label>
-														<div class="input-icon-wrapper">
-															<input type="text" id="cart-client-name" placeholder="Ej: Juan Carlos" />
-															<i class="fas fa-user"></i>
-														</div>
-													</div>
-													
-													<div class="field half">
-														<label for="cart-client-lastname">Apellidos (opcional)</label>
-														<div class="input-icon-wrapper">
-															<input type="text" id="cart-client-lastname" placeholder="Ej: Pérez Mendoza" />
-															<i class="fas fa-users"></i>
-														</div>
-													</div>
-													
-													<div class="field half">
-														<label for="cart-client-country">País (opcional)</label>
-														<div class="input-icon-wrapper">
-															<input type="text" id="cart-client-country" placeholder="Ej: Bolivia, España" autocomplete="country-name" />
-															<i class="fas fa-globe-americas"></i>
-														</div>
-													</div>
-													
-													<div class="field half">
-														<label for="cart-client-phone">WhatsApp o teléfono (opcional)</label>
-														<div class="input-icon-wrapper">
-															<input type="tel" id="cart-client-phone" placeholder="Incluye el prefijo del país" autocomplete="tel" />
-															<i class="fas fa-phone-alt"></i>
-														</div>
-													</div>
-													
-													<div class="field">
-														<label for="cart-client-email">Correo electrónico (opcional)</label>
-														<div class="input-icon-wrapper">
-															<input type="email" id="cart-client-email" placeholder="tu@correo.com" />
-															<i class="fas fa-envelope"></i>
-														</div>
-													</div>
-													
-												</div>
-
-												<div class="checkout-disclaimer">
-													<p><strong>dLocal Go aún no está habilitado.</strong> Este checkout no procesa pagos. Coordina por WhatsApp y confirma disponibilidad e importe antes de pagar. WhatsApp no permite preadjuntar automáticamente el comprobante desde esta página; adjúntalo manualmente en el chat. Consulta las <a href="condiciones-de-compra.html">condiciones de compra</a> y la <a href="privacidad.html">política de privacidad</a>.</p>
-												</div>
-
-												<div class="field">
-													<label for="cart-payment-method">Método de pago manual (opcional)</label>
-													<div class="input-icon-wrapper">
-														<select id="cart-payment-method">
-															<option value="" selected disabled>Elige un método de pago</option>
-															<option value="airtm">Airtm</option>
-															<option value="takenos">Takenos</option>
-															<option value="otro">Otro (consultar por WhatsApp)</option>
-														</select>
-														<i class="fas fa-credit-card" aria-hidden="true"></i>
-													</div>
-													<p id="payment-country-status" aria-live="polite">dLocal Go no está habilitado. Airtm y Takenos muestran su QR; para Otro, coordina por WhatsApp. Confirma el importe antes de pagar.</p>
-													<div id="payment-method-panel" aria-live="polite" style="display:none;">
-														<div id="payment-qr-airtm" class="payment-qr-wrap" style="display:none;">
-															<p class="payment-qr-label">QR de Airtm</p>
-															<p class="payment-recipient-id" id="payment-recipient-airtm" hidden><strong>Usuario Airtm:</strong> <span id="payment-recipient-airtm-value">Pendiente: el titular debe confirmar el nombre de usuario público de Airtm.</span></p>
-															<img class="payment-qr-image" src="assets/images/home/Tutoriales/QRairtm.jpeg" alt="Código QR de Airtm" />
-														</div>
-														<div id="payment-qr-takenos" class="payment-qr-wrap" style="display:none;">
-															<p class="payment-qr-label">QR de Takenos</p>
-															<p class="payment-recipient-id" id="payment-recipient-takenos" hidden><strong>Takecard Takenos:</strong> <span id="payment-recipient-takenos-value">Pendiente: el titular debe confirmar el identificador público Takecard de Takenos.</span></p>
-															<img class="payment-qr-image" src="assets/images/home/Tutoriales/QRtakenos.jpeg" alt="Código QR de Takenos" />
-														</div>
-													</div>
-												</div>
-
-												<section id="manual-payment-summary" class="manual-payment-summary" aria-live="polite" style="display:none;">
-													<h4>Resumen de tu solicitud</h4>
-													<p>Método elegido: <strong id="manual-summary-method"></strong></p>
-													<ul id="manual-summary-products"></ul>
-													<div class="cart-totals-row">
-														<span>Subtotal</span>
-														<strong id="manual-summary-subtotal"></strong>
-													</div>
-													<div id="manual-summary-discount-row" class="cart-totals-row" style="display:none;">
-														<span id="manual-summary-discount-label"></span>
-														<strong id="manual-summary-discount"></strong>
-													</div>
-													<div class="cart-totals-row total-final">
-														<span>Total de referencia</span>
-														<strong id="manual-summary-total"></strong>
-													</div>
-													<p style="margin:0.8em 0 0;">Importes sujetos a confirmación de disponibilidad y total final por WhatsApp. Este resumen no es un cobro ni confirma una compra o pago.</p>
-												</section>
-
-												<p id="checkout-whatsapp-status" aria-live="polite"></p>
-												<ul class="actions stacked">
-													<li>
-														<button type="submit" id="btn-finalizar-compra" class="button primary btn-checkout-finish" disabled>
-															Finalizar compra
-														</button>
-													</li>
-												</ul>
-											</form>
-										</div>
-
-									</div>
-
-								</div>
-							</div>
-					</section>
-
-				<!-- Footer -->
+                                </div>
+                            </div>
+                    </section><!-- Footer -->
 					<section id="footer">
 						<div class="inner">
 							<div class="contact">
