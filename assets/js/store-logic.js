@@ -48,6 +48,46 @@ const LIBRERIA_MULTITRACKS = [
     { id: "mix-genesis-campos", titulo: "MIX GENESIS CAMPOS", artista: "GENESIS CAMPOS", precio: 19.99, ytId: "p9QhzFX-FgE", gumroadUrl: "https://beltsasar.gumroad.com/l/mixgc4Lord?wanted=true", acorde: "Variable", tempo: "Variable", cantidadTracks: 15, pesoTrack: "204 Mb", distribucion: "Empaquetado .ZIP", tags: ["medley", "genesis campos", "worship"], stems: ["Acordeon", "AC", "Bass Live", "Click Track", "Drums Live", "EG 1 y 2", "Guia", "Keys", "Mandolin", "Piano Live", "Pad", "Percussion", "Seccion Metales", "Seccion Violines"] }
 ];
 
+const VISTAS_YOUTUBE_MULTITRACKS = {
+    "4TulfAu8AeU": 644,
+    "QQS3hc00RK4": 497,
+    "zGiTsZVtQ9A": 1350,
+    "9h0NwcsWMNE": 739,
+    "NHieltD_310": 3080,
+    "BQFtmlfKr0Y": 4972,
+    "4iGNPJgOOIw": 420,
+    "R52eoZr_sWg": 457,
+    "OscK7rdACjc": 847,
+    "ipMtyBpOgSU": 1298,
+    "14eRH7z7lg4": 502,
+    "b5d5j3CW6Vo": 646,
+    "jD81VUqcRBE": 481,
+    "WLNGleSSh2M": 299,
+    "EiE_1wigCRU": 281,
+    "RjpYd6R5msg": 1420,
+    "qTNHdnxHd-o": 175,
+    "w_LFCopstUk": 533,
+    "vVI-M39MZdw": 375,
+    "1HMqnlELzD0": 417,
+    "_LnW2izFevI": 1497,
+    "P6edqId1N48": 1060,
+    "pp6rCjdzHGQ": 762,
+    "CdCnEwtuaTU": 370,
+    "a5aqL5txrP4": 287,
+    "aWsW8rvsOaA": 653,
+    "a5tzxtVzXYU": 664,
+    "XVpZmQAFfzc": 302,
+    "MMuJmgU8GlQ": 357,
+    "wZHXz2-zb2c": 524,
+    "1h9VhrDV7FQ": 93,
+    "oKJWZWpypQw": 0,
+    "p9QhzFX-FgE": 0
+};
+
+LIBRERIA_MULTITRACKS.sort((a, b) =>
+    VISTAS_YOUTUBE_MULTITRACKS[b.ytId] - VISTAS_YOUTUBE_MULTITRACKS[a.ytId]
+);
+
 function obtenerPrecioItem(item) {
     const track = LIBRERIA_MULTITRACKS.find(t => t.id === item.id);
     if (track) return track.precio;
