@@ -145,7 +145,8 @@
 					.recommendations-section { padding-top: 1em; }
 			.recommendations-section > .inner > p { max-width: 52em; }
 			.recommendations-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25em; margin: 1.5em 0; }
-			.recommendations-grid .track-card { min-width: 0; background: var(--onlylord-bg-estudio); border: solid 1px rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; }
+			.recommendations-grid .track-card { min-width: 0; background: var(--onlylord-bg-estudio); border: solid 1px rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; color: inherit; text-decoration: none; }
+			.recommendations-grid .track-card:focus-visible { outline: 2px solid var(--onlylord-accent); outline-offset: 3px; }
 			.recommendations-grid .track-thumbnail-wrapper { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
 			.recommendations-grid .track-thumbnail-wrapper img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 			.recommendations-grid .track-thumbnail-overlay { display: none; }
@@ -155,12 +156,16 @@
 			.recommendations-grid .track-price-tag { color: var(--onlylord-accent); font-weight: 700; font-size: 0.85em; }
 			.recommendations-grid .btn-card-action { display: block; text-align: center; font-size: 0.72em; }
 			.recommendations-more { text-align: center; margin: 1em 0 0; }
+			.catalog-mode-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+			.view-mode[hidden] { display: none !important; }
+			.track-not-found { text-align: center; }
+			.track-not-found .button { margin-top: 1em; }
 			.details-footer-compact .contact > div h2 { font-size: 0.9em; margin-bottom: 0.8em; }
 			.details-footer-compact .contact > div p, .details-footer-compact .contact > div li { font-size: 0.85em; line-height: 1.45; }
 			.details-footer-compact .contact > div ul { margin-bottom: 0; }
 			.payment-method-note { font-size: 0.78em; text-align: center; margin: 0.5em 0 0; }
-			@media screen and (max-width: 980px) { .recommendations-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-			@media screen and (max-width: 576px) { .stems-grid, .recommendations-grid { grid-template-columns: 1fr; }
+			@media screen and (max-width: 980px) { .recommendations-grid, .catalog-mode-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+			@media screen and (max-width: 576px) { .stems-grid, .recommendations-grid, .catalog-mode-grid { grid-template-columns: 1fr; }
 				.stem-item { min-width: 0; overflow-wrap: anywhere; }
 		</style>
 	</head>
@@ -198,8 +203,24 @@
 						</div>
 					</nav>
 
+				<section class="wrapper recommendations-section view-mode" id="catalog-mode" aria-labelledby="detail-catalog-title" hidden>
+					<div class="inner">
+						<h2 class="major" id="detail-catalog-title">Catálogo de Multitracks</h2>
+						<p>Explora el catálogo y abre la ficha completa de cada multitrack.</p>
+						<div class="recommendations-grid catalog-mode-grid" id="detail-catalog-grid"></div>
+					</div>
+				</section>
+
+				<section class="wrapper view-mode" id="track-not-found" aria-labelledby="track-not-found-title" hidden>
+					<div class="inner track-not-found">
+						<h2 class="major" id="track-not-found-title">Multitrack no encontrado</h2>
+						<p>El enlace no corresponde a un producto disponible. Revisa la dirección o vuelve al catálogo.</p>
+						<a class="button" href="track-details.html">Volver al catálogo</a>
+					</div>
+				</section>
+
 				<!-- Wrapper -->
-					<section id="wrapper">
+					<section id="wrapper" class="view-mode" hidden>
 						<header>
 							<div class="inner">
 								<h2 id="detail-track-title">Cargando Recurso...</h2>
@@ -253,7 +274,7 @@
 							</div>
 					</section>
 
-								<section class="wrapper recommendations-section" aria-labelledby="recommendations-title">
+				<section class="wrapper recommendations-section view-mode" id="recommendations-section" aria-labelledby="recommendations-title" hidden>
 					<div class="inner">
 						<h2 class="major" id="recommendations-title">También podría interesarte</h2>
 						<p>Explora otros multitracks seleccionados del catálogo.</p>
